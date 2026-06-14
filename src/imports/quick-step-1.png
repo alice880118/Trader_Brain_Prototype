@@ -1,0 +1,23 @@
+# Brain Widget
+
+Remix-compatible React component for the Brain trading companion prototype.
+
+## Dependency
+
+```bash
+npm install @lottiefiles/dotlottie-react
+```
+
+## Usage
+
+Render this component below the application's 48px header:
+
+```tsx
+import { BrainWidget } from "~/packages/brain";
+
+export default function BrainRoute() {
+  return <BrainWidget />;
+}
+```
+
+The component owns `height: calc(100vh - 48px)`. All component styling is supplied through React `style` props. Static assets live under `public/brain/` and use absolute `/brain/...` URLs.

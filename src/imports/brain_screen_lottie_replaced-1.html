@@ -1,0 +1,468 @@
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+export type BrainWidgetProps = {
+  initialName?: string;
+};
+
+type Screen = "home" | "conversation" | "history";
+type Overlay = "none" | "settings" | "rename" | "rename-success" | "quick-start" | "delete";
+type ProcessPhase = "idle" | "planning" | "market" | "executing" | "complete";
+
+type HistoryItem = {
+  id: string;
+  group: string;
+  title: string;
+  date: string;
+  description: string;
+  active?: boolean;
+};
+
+const quickStartCards = [
+  { badge: "01", title: "Conversation", copy: "Share your trading habits with Brain.", image: "/brain/quick-step-1.png" },
+  { badge: "02", title: "Trade History", copy: "Your trades help Brain understand your trading behavior.", image: "/brain/quick-step-2.png" },
+  { badge: "03", title: "Model Growth", copy: "More data unlocks smarter insights and recommendations.", image: "/brain/quick-step-3.png" },
+];
+
+const initialHistory: HistoryItem[] = [
+  { id: "btc-long", group: "Today", title: "I want to long BTC with 20U", date: "May 22, 16:00", description: "You plan to open a 20 USDT BTC long position.", active: true },
+  { id: "eth-breakout", group: "Today", title: "ETH Breakout Analysis", date: "May 22 · 14:18", description: "ETH breakout levels and invalidation." },
+  { id: "portfolio-review", group: "Yesterday", title: "Portfolio Emotional Review", date: "May 21 · 09:12", description: "Reviewing recent emotional trading patterns." },
+  { id: "market-thesis", group: "Yesterday", title: "Market Thesis - ETH", date: "May 21 · 20:44", description: "ETH directional thesis and key levels." },
+  { id: "sol-risk", group: "Yesterday", title: "SOL Risk Review", date: "May 21 · 21:17", description: "Assessing SOL volatility and downside." },
+  { id: "journal-btc", group: "May 20", title: "Trade Journal - BTC", date: "May 20 · 10:15", description: "BTC trade journal notes and review." },
+];
+
+const searchItems: HistoryItem[] = [
+  { id: "btc-long-result", group: "", title: "I want to long BTC with 20U", date: "May 22", description: "You plan to open a 20 USDT BTC long position." },
+  { id: "btc-today", group: "", title: "Should I Long BTC Today?", date: "May 22", description: "BTC market conditions and leverage risks." },
+  { id: "trade-plan", group: "", title: "Trade Plan Analysis", date: "May 21", description: "Generating a personalized BTC trading plan." },
+  { id: "position-strategy", group: "", title: "Position Strategy", date: "May 20", description: "Building a personalized BTC trading plan." },
+  { id: "risk-assessment", group: "", title: "Risk Assessment", date: "May 19", description: "BTC volatility and potential downside." },
+];
+
+const completeCopy = [
+  "Analysis Results",
+  "Multiple emotional trading signals have been detected.",
+  "You plan to open a 20 USDT BTC long position. Based on your recent trading behavior, this trade appears to be driven more by emotion than by a well-defined trading strategy.",
+  "Key Insights",
+  "Trading Recommendation: Consider staying on the sidelines and waiting for a stronger entry opportunity.",
+  "Market Condition: BTC momentum is currently weakening.",
+];
+
+function HoverButton({ children, onClick, ariaLabel, disabled, style }: {
+  children: ReactNode;
+  onClick?: () => void;
+  ariaLabel?: string;
+  disabled?: boolean;
+  style?: CSSProperties;
+}) {
+  const [active, setActive] = useState(false);
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      disabled={disabled}
+      onClick={onClick}
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+      onFocus={() => setActive(true)}
+      onBlur={() => setActive(false)}
+      style={{
+        border: 0,
+        fontFamily: "inherit",
+        cursor: disabled ? "default" : "pointer",
+        color: active ? "rgba(255,255,255,.8)" : "rgba(255,255,255,.6)",
+        background: active ? "rgba(255,255,255,.08)" : "transparent",
+        transition: "color 160ms ease, background-color 160ms ease, transform 160ms ease",
+        outline: "none",
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function XIcon() {
+  return <span aria-hidden="true" style={{ fontSize: 25, lineHeight: 1, fontWeight: 300 }}>×</span>;
+}
+
+function Chevron({ direction = "right" }: { direction?: "left" | "right" }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ display: "block" }}>
+      <path d={direction === "right" ? "M6 3.5 10.5 8 6 12.5" : "M10 3.5 5.5 8l4.5 4.5"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function Check() {
+  return (
+    <span style={{ width: 17, height: 17, borderRadius: 999, display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#00e7ad", color: "#07120f", fontSize: 12, fontWeight: 800 }}>✓</span>
+  );
+}
+
+function TopBar({ title, onNewChat, onSettings, onClose, onBack }: {
+  title: string;
+  onNewChat: () => void;
+  onSettings: () => void;
+  onClose: () => void;
+  onBack?: () => void;
+}) {
+  return (
+    <header style={{ width: "100%", height: 58, padding: "16px 16px 8px", display: "flex", alignItems: "center", justifyContent: "space-between", flex: "0 0 auto" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
+        {onBack ? (
+          <HoverButton ariaLabel="Back" onClick={onBack} style={{ width: 24, height: 24, borderRadius: 999, padding: 4, display: "grid", placeItems: "center" }}>
+            <Chevron direction="left" />
+          </HoverButton>
+        ) : null}
+        <div style={{ color: "#fff", fontSize: 16, lineHeight: "22px", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <HoverButton ariaLabel="New chat" onClick={onNewChat} style={{ width: 24, height: 24, borderRadius: 999, padding: 0, display: "grid", placeItems: "center" }}>
+          <img src="/brain/open-in-new.svg" alt="" width={24} height={24} style={{ display: "block" }} />
+        </HoverButton>
+        <HoverButton ariaLabel="Settings" onClick={onSettings} style={{ width: 24, height: 24, borderRadius: 999, padding: 0, display: "grid", placeItems: "center" }}>
+          <img src="/brain/settings.svg" alt="" width={24} height={24} style={{ display: "block" }} />
+        </HoverButton>
+        <HoverButton ariaLabel="Close Brain" onClick={onClose} style={{ width: 24, height: 24, borderRadius: 999, padding: 0, display: "grid", placeItems: "center" }}>
+          <XIcon />
+        </HoverButton>
+      </div>
+    </header>
+  );
+}
+
+function InputBox({ value, onChange, onSend, inputRef, attachedFile, onAttach }: {
+  value: string;
+  onChange: (value: string) => void;
+  onSend: () => void;
+  inputRef: RefObject<HTMLTextAreaElement | null>;
+  attachedFile: string;
+  onAttach: (file: File | null) => void;
+}) {
+  const [focused, setFocused] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const active = focused || Boolean(value.trim()) || Boolean(attachedFile);
+  return (
+    <div style={{ flex: "0 0 auto", width: "calc(100% - 24px)", margin: "0 12px 12px", padding: 1.5, borderRadius: 20, background: active ? "linear-gradient(90deg,#7053f3 0%,#76bab2 45%,#e3ff94 98%)" : "rgba(221,200,255,.78)", boxShadow: active ? "0 0 11.2px rgba(221,200,255,.6)" : "none", transition: "background 180ms ease, box-shadow 180ms ease" }}>
+      <div style={{ minHeight: 112, borderRadius: 18.5, padding: "13px 14px 11px", display: "flex", flexDirection: "column", background: "radial-gradient(ellipse 250px 190px at -8% 118%,rgba(112,83,243,.16) 0%,rgba(112,83,243,.075) 38%,rgba(112,83,243,0) 76%),radial-gradient(ellipse 240px 180px at 108% 116%,rgba(118,186,178,.14) 0%,rgba(118,186,178,.06) 40%,rgba(118,186,178,0) 78%),radial-gradient(ellipse 290px 150px at 54% -44%,rgba(255,255,255,.055) 0%,rgba(255,255,255,0) 76%),#121419" }}>
+        <textarea
+          ref={inputRef}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder="Tell me about your trading habits..."
+          rows={2}
+          style={{ width: "100%", flex: 1, resize: "none", border: 0, outline: 0, background: "transparent", color: "rgba(255,255,255,.9)", fontFamily: "inherit", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}
+        />
+        {attachedFile ? <div style={{ color: "rgba(255,255,255,.65)", fontSize: 11, marginBottom: 8, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{attachedFile}</div> : null}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <HoverButton ariaLabel="Attach file" onClick={() => fileRef.current?.click()} style={{ width: 28, height: 28, borderRadius: 999, padding: 0, display: "grid", placeItems: "center", fontSize: 25 }}>+</HoverButton>
+          <input ref={fileRef} type="file" hidden onChange={(event) => onAttach(event.target.files?.[0] ?? null)} />
+          <button type="button" aria-label="Send" onClick={onSend} style={{ width: 30, height: 30, borderRadius: 999, border: 0, cursor: "pointer", display: "grid", placeItems: "center", color: "#fff", background: "linear-gradient(135deg,#7053f3,#76bab2 70%,#e3ff94)", fontSize: 22, lineHeight: 1 }}>↑</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProcessCard({ title, steps, collapsed }: { title: string; steps: string[]; collapsed: boolean }) {
+  return (
+    <div style={{ width: "100%", borderRadius: 10, padding: collapsed ? "11px 12px" : "12px", background: "rgba(255,255,255,.04)", display: "flex", flexDirection: "column", gap: 10, transition: "all 220ms ease" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", color: "rgba(255,255,255,.82)", fontSize: 13, fontWeight: 600 }}>
+        <span>{title}</span><span>{collapsed ? <Check /> : "..."}</span>
+      </div>
+      {!collapsed ? steps.map((step, index) => (
+        <div key={step} style={{ display: "grid", gridTemplateColumns: "24px 1fr", gap: 8, color: "#fff", opacity: index === 0 ? 1 : index === 1 ? .7 : .5, fontSize: 12, lineHeight: "17px", animation: "none" }}>
+          <span style={{ color: "#b98cff", fontWeight: 700 }}>0{index + 1}</span><span>{step}</span>
+        </div>
+      )) : null}
+    </div>
+  );
+}
+
+function CompleteResult({ wordsShown }: { wordsShown: number }) {
+  const text = completeCopy.join("\n");
+  const visible = text.split(/(\s+)/).slice(0, wordsShown).join("");
+  return (
+    <div style={{ whiteSpace: "pre-wrap", color: "rgba(255,255,255,.76)", fontSize: 12, lineHeight: "18px" }}>
+      {visible}
+    </div>
+  );
+}
+
+export function BrainWidget({ initialName = "Brain" }: BrainWidgetProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  const [screen, setScreen] = useState<Screen>("home");
+  const [overlay, setOverlay] = useState<Overlay>("none");
+  const [brainName, setBrainName] = useState(initialName);
+  const [renameValue, setRenameValue] = useState("");
+  const [pendingName, setPendingName] = useState("");
+  const [quickIndex, setQuickIndex] = useState(0);
+  const [message, setMessage] = useState("");
+  const [attachedFile, setAttachedFile] = useState("");
+  const [phase, setPhase] = useState<ProcessPhase>("idle");
+  const [phaseSteps, setPhaseSteps] = useState(0);
+  const [completeWords, setCompleteWords] = useState(0);
+  const [history, setHistory] = useState(initialHistory);
+  const [query, setQuery] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [deleteMenu, setDeleteMenu] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<HistoryItem | null>(null);
+  const launcherIconRef = useRef<HTMLDivElement>(null);
+  const whatsRef = useRef<HTMLButtonElement>(null);
+  const chatRef = useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const animations = [
+      launcherIconRef.current?.animate([{ transform: "translateY(2px)" }, { transform: "translateY(-3px)" }, { transform: "translateY(2px)" }], { duration: 3600, iterations: Infinity, easing: "ease-in-out" }),
+      whatsRef.current?.animate([{ transform: "translateY(0)" }, { transform: "translateY(-5px)" }, { transform: "translateY(0)" }], { duration: 5200, iterations: Infinity, easing: "ease-in-out" }),
+      chatRef.current?.animate([{ transform: "translateY(-3px)" }, { transform: "translateY(3px)" }, { transform: "translateY(-3px)" }], { duration: 5900, iterations: Infinity, easing: "ease-in-out" }),
+    ];
+    return () => animations.forEach((animation) => animation?.cancel());
+  }, []);
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    const timer = window.setTimeout(() => setSearching(false), 4000);
+    return () => window.clearTimeout(timer);
+  }, [query]);
+
+  useEffect(() => {
+    if (phase === "idle" || phase === "complete") return;
+    const timers: number[] = [];
+    const later = (callback: () => void, delay: number) => timers.push(window.setTimeout(callback, delay));
+    if (phase === "planning") {
+      later(() => setPhaseSteps(1), 350);
+      later(() => setPhaseSteps(2), 750);
+      later(() => setPhaseSteps(3), 1150);
+      later(() => { setPhase("market"); setPhaseSteps(0); }, 1650);
+    } else if (phase === "market") {
+      later(() => setPhaseSteps(1), 350);
+      later(() => setPhaseSteps(2), 750);
+      later(() => setPhaseSteps(3), 1150);
+      later(() => { setPhase("executing"); setPhaseSteps(0); }, 1650);
+    } else if (phase === "executing") {
+      [1, 2, 3, 4, 5].forEach((step, index) => later(() => setPhaseSteps(step), 350 + index * 380));
+      later(() => { setPhase("complete"); setPhaseSteps(0); }, 2450);
+    }
+    return () => timers.forEach(window.clearTimeout);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "complete") return;
+    setCompleteWords(0);
+    const total = completeCopy.join("\n").split(/(\s+)/).length;
+    const timer = window.setInterval(() => setCompleteWords((count) => {
+      if (count >= total) {
+        window.clearInterval(timer);
+        return count;
+      }
+      return count + 1;
+    }), 42);
+    return () => window.clearInterval(timer);
+  }, [phase]);
+
+  const groupedHistory = useMemo(() => {
+    const groups = new Map<string, HistoryItem[]>();
+    history.forEach((item) => groups.set(item.group, [...(groups.get(item.group) ?? []), item]));
+    return [...groups.entries()];
+  }, [history]);
+
+  const reset = () => {
+    setScreen("home");
+    setOverlay("none");
+    setMessage("");
+    setAttachedFile("");
+    setPhase("idle");
+    setPhaseSteps(0);
+    setCompleteWords(0);
+    setQuery("");
+  };
+
+  const send = () => {
+    if (!message.trim() && !attachedFile) return;
+    setScreen("conversation");
+    setOverlay("none");
+    setPhase("planning");
+    setPhaseSteps(0);
+  };
+
+  const showHistory = () => {
+    setOverlay("none");
+    setScreen("history");
+  };
+
+  const openRename = () => {
+    setRenameValue(brainName === "Brain" ? "" : brainName);
+    setOverlay("rename");
+  };
+
+  const renameCount = Array.from(renameValue.trim()).length;
+  const renameError = renameCount > 15;
+  const currentQuick = quickStartCards[quickIndex];
+  const searchResults = query.trim().toLowerCase() === "@123456" ? [] : searchItems.filter((item) => `${item.title} ${item.description}`.toLowerCase().includes(query.trim().toLowerCase()) || query.trim().toLowerCase() === "btc");
+
+  return (
+    <section aria-label="Brain trading companion" style={{ position: "relative", width: "100%", height: "calc(100vh - 48px)", minHeight: 640, overflow: "hidden", background: "#0b0c10", fontFamily: "Poppins, Arial, sans-serif" }}>
+      <button
+        type="button"
+        aria-label="Open Brain"
+        onClick={() => setIsOpen(true)}
+        style={{ position: "absolute", right: 48, bottom: 48, width: 58, height: 58, border: 0, padding: 0, display: "grid", placeItems: "center", background: "transparent", cursor: "pointer", opacity: isOpen ? 0 : 1, visibility: isOpen ? "hidden" : "visible", transform: isOpen ? "translate(14px,14px) scale(.72)" : "translate(0,0) scale(1)", transition: "transform 340ms cubic-bezier(.22,1,.36,1), opacity 240ms ease, visibility 0s linear 340ms" }}
+      >
+        <div ref={launcherIconRef} aria-hidden="true" style={{ width: 54, height: 54, pointerEvents: "none" }}>
+          <DotLottieReact src="/brain/icon.lottie" loop autoplay style={{ width: "100%", height: "100%" }} />
+        </div>
+      </button>
+
+      <div style={{ position: "absolute", right: 48, bottom: 48, width: 375, height: "min(830px, calc(100% - 96px))", minHeight: 560, borderRadius: 24, border: "1px solid rgba(226,208,255,.79)", overflow: "hidden", display: "flex", flexDirection: "column", color: "#fff", background: "#121419", boxShadow: "0 20px 60px rgba(0,0,0,.28)", opacity: isOpen ? 1 : 0, visibility: isOpen ? "visible" : "hidden", pointerEvents: isOpen ? "auto" : "none", transformOrigin: "right bottom", transform: isOpen ? "translate(0,0) scale(1)" : "translate(32px,32px) scale(.96)", transition: "transform 420ms cubic-bezier(.22,1,.36,1), opacity 280ms ease, visibility 0s linear 340ms" }}>
+        <TopBar title={screen === "history" ? "Conversation History" : brainName} onNewChat={reset} onSettings={() => setOverlay("settings")} onClose={() => setIsOpen(false)} onBack={screen === "history" ? () => setScreen("home") : undefined} />
+
+        {screen === "home" ? (
+          <main style={{ position: "relative", flex: 1, width: "100%", minHeight: 0, overflow: "hidden", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ textAlign: "center", marginTop: 16, zIndex: 3 }}>
+              <h1 style={{ margin: 0, fontSize: 20, lineHeight: "27px", fontWeight: 700, letterSpacing: 0, background: "linear-gradient(90deg,#dbd3ff,#76bab2 66%,#e3ff94 145%)", WebkitBackgroundClip: "text", color: "transparent" }}>Let's build your trading edge</h1>
+              <p style={{ margin: "8px 0 12px", color: "rgba(255,255,255,.36)", fontSize: 14, fontWeight: 600 }}>Tell me how you trade.</p>
+              <button type="button" onClick={() => { setQuickIndex(0); setOverlay("quick-start"); }} style={{ minWidth: 116, height: 36, padding: "0 18px", border: 0, borderRadius: 999, background: "rgba(255,255,255,.42)", color: "#111318", fontFamily: "inherit", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>Get Started</button>
+            </div>
+
+            <button ref={whatsRef} type="button" onClick={() => { setMessage("What's happening today?"); inputRef.current?.focus(); }} style={{ position: "absolute", top: 190, left: 45, zIndex: 4, border: 0, borderRadius: 10, padding: "7px 12px", background: "linear-gradient(90deg,rgba(112,83,243,.5),rgba(227,255,63,.5))", color: "#0c0e11", fontFamily: "inherit", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>What's happening today?</button>
+
+            <div style={{ position: "absolute", top: 150, left: "50%", width: 430, height: 430, transform: "translateX(-50%)", pointerEvents: "none" }}>
+              <DotLottieReact src="/brain/bgbg.lottie" loop autoplay style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
+              <DotLottieReact src="/brain/agent.lottie" loop autoplay style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
+            </div>
+
+            <div style={{ position: "absolute", top: 430, left: 0, right: 0, textAlign: "center", pointerEvents: "none" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,.34)" }}>Hi, I'm {brainName}</div>
+              <div style={{ marginTop: 4, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,.22)" }}>Your AI Trading Companion</div>
+            </div>
+
+            <button ref={chatRef} type="button" onClick={() => inputRef.current?.focus()} style={{ position: "absolute", top: 500, right: 52, zIndex: 4, height: 34, padding: "0 13px", borderRadius: 10, border: "1px solid rgba(197,255,63,.48)", background: "rgba(10,12,15,.76)", color: "rgba(197,255,63,.62)", fontFamily: "inherit", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Chat with {brainName} ↗</button>
+          </main>
+        ) : null}
+
+        {screen === "conversation" ? (
+          <main style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "14px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ alignSelf: "flex-end", maxWidth: "84%", padding: "11px 13px", borderRadius: "18px 18px 4px 18px", background: "rgba(255,255,255,.12)", color: "rgba(255,255,255,.9)", fontSize: 13 }}>{message || attachedFile}</div>
+            <ProcessCard title="Planning..." steps={["Reading your trading intent...", "Checking leverage request...", "Preparing analysis plan..."].slice(0, phase === "planning" ? phaseSteps : 3)} collapsed={phase !== "planning"} />
+            {phase !== "planning" ? <ProcessCard title="Market Analysis..." steps={["Analyzing BTC market conditions...", "Retrieving key market indicators...", "Evaluating leverage risk"].slice(0, phase === "market" ? phaseSteps : 3)} collapsed={phase === "executing" || phase === "complete"} /> : null}
+            {phase === "executing" || phase === "complete" ? (
+              <div style={{ width: "100%", borderRadius: 10, padding: 12, background: "rgba(255,255,255,.04)" }}>
+                <div style={{ color: "rgba(255,255,255,.82)", fontSize: 13, fontWeight: 600, marginBottom: 9 }}>Executing...</div>
+                {["Analyze Today's BTC Market", "Retrieve Key Crypto Market Data", "Analyze Leverage Conditions", "Validating Market Data...", "Checking User Profile..."].slice(0, phase === "complete" ? 5 : phaseSteps).map((item) => <div key={item} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", color: "rgba(255,255,255,.72)", fontSize: 12 }}><span>{item}</span><Check /></div>)}
+              </div>
+            ) : null}
+            {phase === "complete" ? <CompleteResult wordsShown={completeWords} /> : null}
+          </main>
+        ) : null}
+
+        {screen === "history" ? (
+          <main style={{ flex: 1, minHeight: 0, padding: "8px 16px 18px", overflowY: "auto" }}>
+            <div style={{ height: 42, borderRadius: 10, border: query ? "1px solid rgba(255,255,255,.55)" : "1px solid transparent", background: "rgba(255,255,255,.06)", display: "flex", alignItems: "center", gap: 9, padding: "0 12px", marginBottom: 14 }}>
+              <span aria-hidden="true" style={{ color: "rgba(255,255,255,.48)", fontSize: 18 }}>⌕</span>
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search conversations..." style={{ flex: 1, minWidth: 0, border: 0, outline: 0, background: "transparent", color: "rgba(255,255,255,.82)", fontFamily: "inherit", fontSize: 13, fontWeight: 600 }} />
+              {query ? <HoverButton ariaLabel="Clear search" onClick={() => setQuery("")} style={{ width: 24, height: 24, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton> : null}
+            </div>
+
+            {query ? (
+              searching ? Array.from({ length: 5 }).map((_, index) => <div key={index} style={{ height: 72, borderRadius: 10, marginBottom: 8, padding: 13, background: "rgba(255,255,255,.055)" }}><div style={{ width: "55%", height: 13, borderRadius: 4, background: "rgba(255,255,255,.055)" }} /><div style={{ width: "68%", height: 13, borderRadius: 4, marginTop: 9, background: "rgba(255,255,255,.055)" }} /></div>) : searchResults.length ? searchResults.map((item) => <SearchCard key={item.id} item={item} />) : <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,.5)", fontSize: 14, fontWeight: 600 }}>⌕ No results found</div>
+            ) : groupedHistory.map(([group, items]) => (
+              <section key={group} style={{ marginBottom: 14 }}>
+                <h2 style={{ margin: "0 0 8px", color: "rgba(255,255,255,.54)", fontSize: 14, lineHeight: "20px", fontWeight: 600 }}>{group}</h2>
+                {items.map((item) => (
+                  <div key={item.id} style={{ position: "relative", minHeight: 74, borderRadius: 10, border: "1px solid rgba(255,255,255,.07)", marginBottom: 6, padding: "13px 52px 12px 13px", background: deleteMenu === item.id ? "rgba(255,255,255,.06)" : "transparent" }}>
+                    <div style={{ color: "rgba(255,255,255,.8)", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}>{item.title}</div>
+                    <div style={{ marginTop: 5, color: "rgba(255,255,255,.48)", fontSize: 12, lineHeight: "17px", fontWeight: 500 }}>{item.date}</div>
+                    {item.active ? <span style={{ position: "absolute", right: 12, top: 25, padding: "2px 8px", border: "1px solid #00e7ad", borderRadius: 999, color: "#00e7ad", fontSize: 12, fontWeight: 600 }}>Active</span> : <HoverButton ariaLabel={`Actions for ${item.title}`} onClick={() => setDeleteMenu(deleteMenu === item.id ? null : item.id)} style={{ position: "absolute", right: 10, top: 22, width: 30, height: 25, borderRadius: 999, padding: 0, fontSize: 18 }}>•••</HoverButton>}
+                    {deleteMenu === item.id ? <button type="button" onClick={() => { setDeleteTarget(item); setOverlay("delete"); setDeleteMenu(null); }} style={{ position: "absolute", zIndex: 5, right: 0, top: 54, height: 38, padding: "0 14px", borderRadius: 10, border: "1px solid rgba(255,60,164,.65)", background: "#13151a", color: "#ff3ca4", fontFamily: "inherit", fontWeight: 600, cursor: "pointer" }}>⌫ Delete</button> : null}
+                  </div>
+                ))}
+              </section>
+            ))}
+          </main>
+        ) : null}
+
+        {screen !== "history" ? <InputBox value={message} onChange={setMessage} onSend={send} inputRef={inputRef} attachedFile={attachedFile} onAttach={(file) => setAttachedFile(file?.name ?? "")} /> : <div style={{ flex: "0 0 auto", margin: "0 16px 18px", paddingTop: 12, borderTop: "1px solid rgba(255,255,255,.08)", textAlign: "center", color: "rgba(255,255,255,.45)", fontSize: 12 }}>Conversation history is stored for up to 30 days.</div>}
+
+        {overlay === "settings" ? (
+          <div onClick={() => setOverlay("none")} style={{ position: "absolute", inset: 0, zIndex: 30, display: "flex", alignItems: "flex-end", background: "rgba(6,7,10,.5)" }}>
+            <div onClick={(event) => event.stopPropagation()} style={{ width: "100%", padding: "16px 12px 12px", border: "1px solid rgba(255,255,255,.36)", borderRadius: "24px 24px 0 0", background: "#111316", transform: "translateY(0)", transition: "transform 300ms cubic-bezier(.22,1,.36,1)" }}>
+              <div style={{ position: "relative", textAlign: "center", marginBottom: 15, color: "#fff", fontSize: 13, fontWeight: 600 }}>Setting<HoverButton ariaLabel="Close settings" onClick={() => setOverlay("none")} style={{ position: "absolute", right: 0, top: -6, width: 28, height: 28, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton></div>
+              <SettingOption title="Rename My Brain" description="Change your companion's name" onClick={openRename} />
+              <SettingOption title="Conversation History" description="View and manage your past chats" onClick={showHistory} />
+              <button type="button" onClick={() => setOverlay("none")} style={{ width: "100%", height: 42, marginTop: 10, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.65)", fontFamily: "inherit", fontWeight: 600, cursor: "pointer" }}>Cancel</button>
+            </div>
+          </div>
+        ) : null}
+
+        {overlay === "rename" ? (
+          <Modal title="Rename My Brain" onClose={() => setOverlay("none")}>
+            <p style={{ margin: "0 0 18px", color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: "20px", fontWeight: 600 }}>This name will be used for future insights and interactions.</p>
+            <div style={{ height: 42, borderRadius: 10, border: `1.2px solid ${renameError ? "#ff3ca4" : renameCount ? "#c7a4ff" : "rgba(255,255,255,.56)"}`, display: "flex", alignItems: "center", gap: 8, padding: "0 11px", color: renameError ? "#ff3ca4" : "#c7a4ff", background: "rgba(255,255,255,.02)" }}>
+              <span aria-hidden="true">●</span>
+              <input autoFocus value={renameValue} onChange={(event) => setRenameValue(event.target.value)} placeholder="Give me a name..." style={{ flex: 1, minWidth: 0, border: 0, outline: 0, background: "transparent", color: "rgba(255,255,255,.92)", fontFamily: "inherit", fontWeight: 700, fontSize: 13 }} />
+              {renameValue ? <HoverButton ariaLabel="Clear name" onClick={() => setRenameValue("")} style={{ width: 22, height: 22, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton> : null}
+            </div>
+            <div style={{ textAlign: "right", color: renameError ? "#ff3ca4" : "rgba(255,255,255,.58)", fontWeight: 700, fontSize: 12, margin: "6px 0 26px" }}>{renameCount}/15</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <button type="button" disabled={!renameCount || renameError} onClick={() => { setPendingName(renameValue.trim()); setOverlay("rename-success"); }} style={{ minHeight: 40, borderRadius: 999, border: 0, background: "linear-gradient(90deg,#7157f3,#89d8ba)", color: "#fff", opacity: !renameCount || renameError ? .45 : 1, fontFamily: "inherit", fontWeight: 700, cursor: !renameCount || renameError ? "default" : "pointer" }}>Save</button>
+              <button type="button" onClick={() => setOverlay("none")} style={{ minHeight: 40, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.74)", fontFamily: "inherit", fontWeight: 700, cursor: "pointer" }}>Cancel</button>
+            </div>
+          </Modal>
+        ) : null}
+
+        {overlay === "rename-success" ? (
+          <Modal title="Saved Successfully!" onClose={() => { setBrainName(pendingName || brainName); setOverlay("none"); }}>
+            <p style={{ margin: "0 0 28px", color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: "20px", fontWeight: 600 }}>{pendingName} will be your trading companion on the journey ahead.</p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <button type="button" onClick={() => { setBrainName(pendingName || brainName); setOverlay("none"); }} style={{ minHeight: 40, borderRadius: 999, border: 0, background: "linear-gradient(90deg,#7157f3,#89d8ba)", color: "#fff", fontFamily: "inherit", fontWeight: 700, cursor: "pointer" }}>Close</button>
+              <button type="button" onClick={() => setOverlay("rename")} style={{ minHeight: 40, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.74)", fontFamily: "inherit", fontWeight: 700, cursor: "pointer" }}>Edit Name</button>
+            </div>
+          </Modal>
+        ) : null}
+
+        {overlay === "quick-start" ? (
+          <div onClick={() => setOverlay("none")} style={{ position: "absolute", inset: 0, zIndex: 34, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}>
+            <div onClick={(event) => event.stopPropagation()} style={{ position: "relative", width: "100%", minHeight: 164, borderRadius: 12, border: "1px solid rgba(255,255,255,.4)", background: "#111316", padding: 16 }}>
+              <HoverButton ariaLabel="Close quick start" onClick={() => setOverlay("none")} style={{ position: "absolute", right: 12, top: 10, width: 28, height: 28, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, paddingRight: 34 }}><span style={{ padding: "3px 6px", borderRadius: 5, background: "#d9ff3f", color: "#080a0d", fontWeight: 800, fontSize: 13 }}>{currentQuick.badge}</span><h2 style={{ margin: 0, color: "#fff", fontSize: 13, fontWeight: 600 }}>{currentQuick.title}</h2></div>
+              <div style={{ minHeight: 82, display: "grid", gridTemplateColumns: "1fr 112px", gap: 8, alignItems: "center" }}><p style={{ margin: 0, color: "rgba(255,255,255,.7)", fontSize: 13, lineHeight: "19px", fontWeight: 600 }}>{currentQuick.copy}</p><img src={currentQuick.image} alt="" style={{ width: 104, maxHeight: 82, objectFit: "contain", justifySelf: "end" }} /></div>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 20 }}><button type="button" disabled={quickIndex === 0} onClick={() => setQuickIndex((index) => Math.max(0, index - 1))} style={{ width: 38, height: 28, borderRadius: 999, border: "1px solid rgba(255,255,255,.18)", background: "transparent", color: "rgba(255,255,255,.55)", opacity: quickIndex === 0 ? .4 : 1, display: "grid", placeItems: "center", cursor: quickIndex === 0 ? "default" : "pointer" }}><Chevron direction="left" /></button><span style={{ color: "rgba(255,255,255,.68)", fontSize: 15, fontWeight: 700 }}>{quickIndex + 1}/3</span><button type="button" onClick={() => quickIndex === 2 ? setOverlay("none") : setQuickIndex((index) => index + 1)} style={{ minWidth: quickIndex === 2 ? 84 : 38, height: 28, padding: "0 13px", borderRadius: 999, border: 0, background: "#d9ff3f", color: "#121419", fontFamily: "inherit", fontWeight: 800, fontSize: 15, display: "grid", placeItems: "center", cursor: "pointer" }}>{quickIndex === 2 ? "Finish" : <Chevron />}</button></div>
+            </div>
+          </div>
+        ) : null}
+
+        {overlay === "delete" && deleteTarget ? (
+          <Modal title="Delete Chat?" onClose={() => { setOverlay("none"); setDeleteTarget(null); }}>
+            <p style={{ margin: "0 0 28px", color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: "20px", fontWeight: 600 }}>This will delete {deleteTarget.title}.</p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}><button type="button" onClick={() => { setHistory((items) => items.filter((item) => item.id !== deleteTarget.id)); setOverlay("none"); setDeleteTarget(null); }} style={{ minHeight: 40, borderRadius: 999, border: 0, background: "#ff3ca4", color: "#fff", fontFamily: "inherit", fontWeight: 700, cursor: "pointer" }}>Delete</button><button type="button" onClick={() => { setOverlay("none"); setDeleteTarget(null); }} style={{ minHeight: 40, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.74)", fontFamily: "inherit", fontWeight: 700, cursor: "pointer" }}>Cancel</button></div>
+          </Modal>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function SettingOption({ title, description, onClick }: { title: string; description: string; onClick: () => void }) {
+  const [hovered, setHovered] = useState(false);
+  return <button type="button" onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocus={() => setHovered(true)} onBlur={() => setHovered(false)} style={{ width: "100%", minHeight: 64, padding: "11px 12px", borderRadius: 8, border: "1px solid rgba(255,255,255,.05)", display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "left", background: hovered ? "rgba(255,255,255,.06)" : "transparent", color: "#fff", fontFamily: "inherit", cursor: "pointer", transition: "background-color 160ms ease" }}><span><span style={{ display: "block", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}>{title}</span><span style={{ display: "block", marginTop: 4, color: "rgba(255,255,255,.52)", fontSize: 12, lineHeight: "17px", fontWeight: 500 }}>{description}</span></span><Chevron /></button>;
+}
+
+function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  return <div onClick={onClose} style={{ position: "absolute", inset: 0, zIndex: 35, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}><div role="dialog" aria-modal="true" onClick={(event) => event.stopPropagation()} style={{ width: "100%", borderRadius: 12, border: "1px solid rgba(255,255,255,.42)", background: "#111316", padding: "17px 16px 14px", boxShadow: "0 10px 30px rgba(0,0,0,.3)" }}><div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}><h2 style={{ margin: 0, color: "#fff", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}>{title}</h2><HoverButton ariaLabel="Close" onClick={onClose} style={{ width: 26, height: 26, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton></div>{children}</div></div>;
+}
+
+function SearchCard({ item }: { item: HistoryItem }) {
+  const [hovered, setHovered] = useState(false);
+  return <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{ minHeight: 72, borderRadius: 10, marginBottom: 8, padding: "13px 78px 12px 13px", position: "relative", background: hovered ? "rgba(255,255,255,.06)" : "transparent", transition: "background-color 160ms ease" }}><div style={{ color: "rgba(255,255,255,.8)", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}>{item.title}</div><div style={{ marginTop: 5, color: "rgba(255,255,255,.46)", fontSize: 12, lineHeight: "17px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.description}</div><span style={{ position: "absolute", right: 12, top: 26, color: "rgba(255,255,255,.55)", fontSize: 12, opacity: hovered ? 1 : 0, transition: "opacity 160ms ease" }}>{item.date}</span></div>;
+}

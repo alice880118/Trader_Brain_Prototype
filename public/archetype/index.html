@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trader Archetype Frame</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --video-bg: #0d0f14;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      align-items: start;
+      justify-items: center;
+      padding: 40px 0;
+      background: #0c0d10;
+      font-family: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .frame {
+      width: 350px;
+      height: fit-content;
+      overflow: visible;
+      padding: 20px 15px 13px;
+      color: #f7f7fa;
+      background: var(--video-bg);
+      border-radius: 4px;
+      box-shadow: 0 18px 42px rgb(0 0 0 / 28%);
+    }
+
+    .top-row,
+    .section-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: #a7a8ad;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .title {
+      margin: 6px 0 22px;
+      color: #fafafd;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .info {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .tip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 16px;
+    }
+
+    .tip::after {
+      position: absolute;
+      z-index: 5;
+      width: max-content;
+      max-width: 210px;
+      padding: 9px 11px;
+      border-radius: 4px;
+      color: #f4f4f6;
+      background: #303238;
+      content: attr(data-tip);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+      white-space: normal;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .tip:hover::after,
+    .tip:focus-visible::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tip.top-tip::after,
+    .tip.confidence-tip::after {
+      top: 22px;
+      right: 0;
+    }
+
+    .tip.behavior-tip::after,
+    .tip.baseline-tip::after {
+      top: 24px;
+      left: -88px;
+    }
+
+    .tip.behavior-tip::after {
+      max-width: none;
+      white-space: nowrap;
+    }
+
+    .chart {
+      position: relative;
+      height: 175px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      border: 1px solid #202a34;
+      border-radius: 4px;
+      background: var(--video-bg);
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 1.5%);
+    }
+
+    .brain {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--video-bg);
+      object-fit: cover;
+    }
+
+    .tag {
+      position: absolute;
+      z-index: 1;
+      height: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: #0d0f13;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      box-shadow: 0 10px 22px rgb(0 0 0 / 24%);
+      transform-origin: center;
+      will-change: opacity, transform;
+    }
+
+    .tag.entering {
+      animation: tag-enter 420ms cubic-bezier(.2, .9, .2, 1.18) both;
+    }
+
+    .tag.exiting {
+      animation: tag-exit 260ms ease-in both;
+    }
+
+    .tag.gradient {
+      background: #55f4b0;
+    }
+
+    .tag.purple {
+      color: #fff;
+      background: #9a73ff;
+    }
+
+    .tag.lime {
+      background: #ffec5f;
+    }
+
+    .tag.pink {
+      background: #f764bd;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      color: #a7a8ad;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .score {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 18px;
+      line-height: .82;
+    }
+
+    .score strong {
+      color: #fff;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .score span {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .track {
+      position: relative;
+      height: 6px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #34373c;
+    }
+
+    .fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--confidence, 88%);
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7357ff 0%, #5d85d9 29%, #87c7b7 58%, #e6fb8c 100%);
+    }
+
+    .details {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid #292d32;
+    }
+
+    .details-header,
+    .baseline-row,
+    .last-update {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .details-title,
+    .baseline-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+      color: #a6a7ac;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .close-tags {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+      border: 0;
+      color: #9a9ba1;
+      background: transparent;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .details.expanded .close-tags {
+      display: flex;
+    }
+
+    .close-icon {
+      width: 17px;
+      height: 17px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .behavior-tags,
+    .expanded-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 8px;
+    }
+
+    .behavior-tags {
+      margin-top: 13px;
+    }
+
+    .expanded-tags {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .details.expanded .expanded-tags {
+      display: flex;
+    }
+
+    .behavior-pill,
+    .more-tags {
+      height: 31px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      color: #d5d5d8;
+      background: #15181d;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .behavior-pill {
+      gap: 7px;
+      padding: 0 11px;
+      border: 1px solid var(--pill-border);
+      box-shadow: inset 0 0 16px rgb(255 255 255 / 1%);
+    }
+
+    .dot {
+      width: 5px;
+      height: 5px;
+      flex: 0 0 5px;
+      border-radius: 1px;
+      background: var(--pill-dot);
+    }
+
+    .more-tags {
+      width: 31px;
+      border: 1px solid #4a4e56;
+      color: #e8e8ea;
+      cursor: pointer;
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .more-tags img {
+      width: 17px;
+      height: 17px;
+      display: block;
+    }
+
+    .details.expanded .more-tags {
+      display: none;
+    }
+
+    .baseline {
+      margin-top: 30px;
+    }
+
+    .baseline-card {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 4px;
+      background: #202228;
+    }
+
+    .baseline-row + .baseline-row {
+      margin-top: 4px;
+    }
+
+    .baseline-label,
+    .baseline-unit,
+    .last-update {
+      color: #9fa0a6;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .baseline-value {
+      color: #f4f4f6;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .baseline-value.win {
+      color: #52f5d2;
+    }
+
+    .baseline-value.loss {
+      color: #ff55b7;
+    }
+
+    .footer-divider {
+      margin-top: 30px;
+      padding-top: 16px;
+      border-top: 1px solid #292d32;
+    }
+
+    .last-update {
+      justify-content: center;
+      gap: 14px;
+      color: rgb(255 255 255 / 50%);
+      margin-bottom: 27px;
+      text-align: center;
+    }
+
+    .brain-cta {
+      width: 100%;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(90deg, #714fff 0%, #8db8cc 46%, #ddff81 100%);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @keyframes tag-enter {
+      0% {
+        opacity: 0;
+        transform: translateY(7px) scale(.84);
+      }
+
+      68% {
+        opacity: 1;
+        transform: translateY(-1px) scale(1.04);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes tag-exit {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-6px) scale(.86);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="frame" aria-label="Your Trader Archetype">
+    <div class="top-row">
+      <p class="eyebrow">Your Trader Archetype</p>
+      <span class="tip top-tip" tabindex="0" data-tip="Your core trading personality identified by AI">
+        <img class="info" src="./info.svg" alt="">
+      </span>
+    </div>
+
+    <h1 class="title">FOMO+LotteryRevenge</h1>
+
+    <section class="chart" aria-label="Archetype map">
+      <video class="brain" src="./brain.mp4" autoplay muted loop playsinline></video>
+
+      <div class="tag-layer" aria-hidden="true"></div>
+    </section>
+
+    <div class="section-row">
+      <p class="section-title">Confidence</p>
+      <span class="tip confidence-tip" tabindex="0" data-tip="Brain confidence level for this analysis">
+        <img class="info" src="./info.svg" alt="">
+      </span>
+    </div>
+
+    <div class="score">
+      <strong>88</strong>
+      <span>%</span>
+    </div>
+
+    <div class="track" aria-label="Confidence 88 percent" style="--confidence: 88%;">
+      <div class="fill"></div>
+    </div>
+
+    <section class="details" aria-label="Behavioral details">
+      <div class="details-header">
+        <h2 class="details-title">Behavioral Tag <span class="tip behavior-tip" tabindex="0" data-tip="Trading behavior patterns detected by Brain"><img class="info" src="./info.svg" alt=""></span></h2>
+        <button class="close-tags" type="button" aria-label="Close behavioral tags">
+          Close <img class="close-icon" src="./react-right.svg" alt="">
+        </button>
+      </div>
+
+      <div class="behavior-tags">
+        <span class="behavior-pill" style="--pill-border: #625b26; --pill-dot: #fff068;"><span class="dot"></span>Exit Liquidity Hero</span>
+        <span class="behavior-pill" style="--pill-border: #71334c; --pill-dot: #ff5ca8;"><span class="dot"></span>Diamond Delusion</span>
+        <span class="behavior-pill" style="--pill-border: #236a56; --pill-dot: #58f0bd;"><span class="dot"></span>Revenge Hunter</span>
+        <button class="more-tags" type="button" aria-label="Show all behavioral tags">
+          <img src="./behavioral-tag.svg" alt="">
+        </button>
+      </div>
+
+      <div class="expanded-tags">
+        <span class="behavior-pill" style="--pill-border: #71334c; --pill-dot: #ff5ca8;"><span class="dot"></span>Hopium Scalping Master</span>
+        <span class="behavior-pill" style="--pill-border: #805d31; --pill-dot: #ffc167;"><span class="dot"></span>Mean Reversion Bias</span>
+        <span class="behavior-pill" style="--pill-border: #625b26; --pill-dot: #fff068;"><span class="dot"></span>Stable Sizing</span>
+        <span class="behavior-pill" style="--pill-border: #71334c; --pill-dot: #ff5ca8;"><span class="dot"></span>Volatility Chasing</span>
+        <span class="behavior-pill" style="--pill-border: #625b26; --pill-dot: #fff068;"><span class="dot"></span>Tilt Trading</span>
+      </div>
+
+      <section class="baseline" aria-label="Your baseline">
+        <h2 class="baseline-title">Your Baseline <span class="tip baseline-tip" tabindex="0" data-tip="Your average trading behavior baseline"><img class="info" src="./info.svg" alt=""></span></h2>
+        <div class="baseline-card">
+          <div class="baseline-row">
+            <span class="baseline-label">Avg Trades</span>
+            <span><span class="baseline-value">3.6</span> <span class="baseline-unit">/Day</span></span>
+          </div>
+          <div class="baseline-row">
+            <span class="baseline-label">Avg Win</span>
+            <span><span class="baseline-value win">$1,287</span> <span class="baseline-unit">/USDC</span></span>
+          </div>
+          <div class="baseline-row">
+            <span class="baseline-label">Avg Loss</span>
+            <span><span class="baseline-value loss">$1,234</span> <span class="baseline-unit">USDC</span></span>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-divider">
+        <div class="last-update">
+          <span>Last Update</span>
+          <span>2026/05/09 00:00:00</span>
+        </div>
+        <button class="brain-cta" type="button">Talk to My Brain</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const CARD_WIDTH = 318;
+    const CARD_HEIGHT = 173;
+
+    const BRAIN_WIDTH = 120;
+    const BRAIN_HEIGHT = 106;
+
+    const brainRect = {
+      x: (CARD_WIDTH - BRAIN_WIDTH) / 2,
+      y: (CARD_HEIGHT - BRAIN_HEIGHT) / 2,
+      width: BRAIN_WIDTH,
+      height: BRAIN_HEIGHT,
+    };
+
+    const TAG_SAFE_GAP = 8;
+    const TAG_FRAME_INSET = 4;
+
+    const tags = [
+      { label: "Exit Liquidity Hero", color: "gradient" },
+      { label: "Diamond Delusion", color: "purple" },
+      { label: "Revenge Hunter", color: "lime" },
+      { label: "Hopium Scalping Master", color: "pink" },
+      { label: "Mean Reversion Bias", color: "gradient" },
+      { label: "Stable Sizing", color: "purple" },
+      { label: "Volatility Chasing", color: "pink" },
+      { label: "Tilt Trading", color: "lime" },
+    ];
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - 0.5);
+    }
+
+    // Tag display rules:
+    // 1. Each state displays 2-3 tags.
+    // 2. Tags can appear anywhere inside the 318 x 173 chart except the central 120 x 106 brainRect.
+    // 3. Tags shown together must not repeat the same color.
+    // 4. Avoid selecting too many 3-word tags in the same state.
+    // 5. Tags must stay at least 4px away from the chart edge and must never overlap each other.
+    function getRandomTags() {
+      const count = Math.floor(Math.random() * 2) + 2;
+
+      for (let attempt = 0; attempt < 30; attempt += 1) {
+        const selectedTags = getUniqueColorTags(count);
+        const threeWordCount = selectedTags.filter((tag) => getWordCount(tag.label) === 3).length;
+
+        if (threeWordCount <= Math.ceil(count / 2)) {
+          return selectedTags;
+        }
+      }
+
+      return getUniqueColorTags(count);
+    }
+
+    function getWordCount(label) {
+      return label.trim().split(/\s+/).length;
+    }
+
+    function getUniqueColorTags(count) {
+      const selectedTags = [];
+      const usedColors = new Set();
+
+      for (const tag of shuffle(tags)) {
+        if (usedColors.has(tag.color)) {
+          continue;
+        }
+
+        selectedTags.push(tag);
+        usedColors.add(tag.color);
+
+        if (selectedTags.length === count) {
+          break;
+        }
+      }
+
+      return selectedTags;
+    }
+
+    function getRandomTagPositions() {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
+        const positionedTags = tryPlaceTags(getRandomTags());
+
+        if (positionedTags) {
+          return positionedTags;
+        }
+      }
+
+      return tryPlaceTags(getUniqueColorTags(2)) || [];
+    }
+
+    function tryPlaceTags(selectedTags) {
+      const positionedTags = [];
+
+      for (const tag of selectedTags) {
+        const positionedTag = placeTagRandomly(tag, positionedTags);
+
+        if (!positionedTag) {
+          return null;
+        }
+
+        positionedTags.push(positionedTag);
+      }
+
+      return positionedTags;
+    }
+
+    function placeTagRandomly(tag, positionedTags) {
+      const measuredTag = {
+        ...tag,
+        ...measureTag(tag),
+      };
+      const maxX = Math.max(CARD_WIDTH - measuredTag.width - TAG_FRAME_INSET, TAG_FRAME_INSET);
+      const maxY = Math.max(CARD_HEIGHT - measuredTag.height - TAG_FRAME_INSET, TAG_FRAME_INSET);
+
+      for (let attempt = 0; attempt < 120; attempt += 1) {
+        const candidate = {
+          ...measuredTag,
+          x: randomBetween(TAG_FRAME_INSET, maxX),
+          y: randomBetween(TAG_FRAME_INSET, maxY),
+        };
+
+        if (isValidTagPosition(candidate, positionedTags)) {
+          return candidate;
+        }
+      }
+
+      return findFallbackTagPosition(measuredTag, positionedTags);
+    }
+
+    function findFallbackTagPosition(tag, positionedTags) {
+      const fallbackPoints = shuffle([
+        { x: 8, y: 8 },
+        { x: CARD_WIDTH - tag.width - 8, y: 8 },
+        { x: 8, y: CARD_HEIGHT - tag.height - 8 },
+        { x: CARD_WIDTH - tag.width - 8, y: CARD_HEIGHT - tag.height - 8 },
+        { x: 8, y: brainRect.y + brainRect.height + TAG_SAFE_GAP },
+        { x: brainRect.x + brainRect.width + TAG_SAFE_GAP, y: brainRect.y },
+      ]);
+
+      for (const point of fallbackPoints) {
+        const candidate = {
+          ...tag,
+          x: Math.min(Math.max(point.x, TAG_FRAME_INSET), CARD_WIDTH - tag.width - TAG_FRAME_INSET),
+          y: Math.min(Math.max(point.y, TAG_FRAME_INSET), CARD_HEIGHT - tag.height - TAG_FRAME_INSET),
+        };
+
+        if (isValidTagPosition(candidate, positionedTags)) {
+          return candidate;
+        }
+      }
+
+      return null;
+    }
+
+    function randomBetween(min, max) {
+      return min + Math.random() * Math.max(max - min, 0);
+    }
+
+    function isValidTagPosition(candidate, positionedTags) {
+      return !intersects(candidate, brainRect)
+        && positionedTags.every((tag) => !intersects(withGap(candidate), withGap(tag)));
+    }
+
+    function withGap(rect) {
+      return {
+        x: rect.x - TAG_SAFE_GAP / 2,
+        y: rect.y - TAG_SAFE_GAP / 2,
+        width: rect.width + TAG_SAFE_GAP,
+        height: rect.height + TAG_SAFE_GAP,
+      };
+    }
+
+    function measureTag(tag) {
+      const layer = document.querySelector(".tag-layer");
+      const node = document.createElement("span");
+      node.className = `tag ${tag.color}`;
+      node.textContent = tag.label;
+      node.style.visibility = "hidden";
+      node.style.pointerEvents = "none";
+      layer.appendChild(node);
+
+      const size = {
+        width: node.offsetWidth,
+        height: node.offsetHeight,
+      };
+
+      node.remove();
+      return size;
+    }
+
+    function intersects(a, b) {
+      return a.x < b.x + b.width
+        && a.x + a.width > b.x
+        && a.y < b.y + b.height
+        && a.y + a.height > b.y;
+    }
+
+    function createTagNode(tag) {
+      const node = document.createElement("span");
+      node.className = `tag ${tag.color} entering`;
+      node.textContent = tag.label;
+      node.style.left = `${tag.x}px`;
+      node.style.top = `${tag.y}px`;
+      return node;
+    }
+
+    function renderTags() {
+      const layer = document.querySelector(".tag-layer");
+      const positionedTags = getRandomTagPositions();
+
+      layer.replaceChildren(...positionedTags.map(createTagNode));
+    }
+
+    function swapTags() {
+      const layer = document.querySelector(".tag-layer");
+      const activeTags = [...layer.querySelectorAll(".tag")];
+
+      if (!activeTags.length) {
+        renderTags();
+        return;
+      }
+
+      activeTags.forEach((tag) => {
+        tag.classList.remove("entering");
+        tag.classList.add("exiting");
+      });
+
+      window.setTimeout(renderTags, 260);
+    }
+
+    renderTags();
+    setInterval(swapTags, 5000);
+
+    const details = document.querySelector(".details");
+    const moreTagsButton = document.querySelector(".more-tags");
+    const closeTagsButton = document.querySelector(".close-tags");
+
+    moreTagsButton.addEventListener("click", () => {
+      details.classList.add("expanded");
+    });
+
+    closeTagsButton.addEventListener("click", () => {
+      details.classList.remove("expanded");
+    });
+  </script>
+</body>
+</html>
