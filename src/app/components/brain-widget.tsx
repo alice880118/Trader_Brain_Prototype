@@ -26,6 +26,27 @@ type Screen = "home" | "conversation" | "history";
 type Overlay = "none" | "settings" | "rename" | "rename-success" | "quick-start" | "delete";
 type ProcessPhase = "idle" | "planning" | "market" | "executing" | "complete";
 type HistoryItem = { id: string; group: string; title: string; date: string; description: string; active?: boolean };
+type AttachmentKind = "image" | "document";
+type Attachment =
+  | { name: string; kind: "document" }
+  | { name: string; kind: "image"; previewUrl: string };
+
+function getAttachmentKind(file: File): AttachmentKind {
+  return file.type.startsWith("image/") ? "image" : "document";
+}
+
+function createAttachment(file: File): Attachment {
+  if (getAttachmentKind(file) === "image") {
+    return { name: file.name, kind: "image", previewUrl: URL.createObjectURL(file) };
+  }
+  return { name: file.name, kind: "document" };
+}
+
+function revokeAttachmentPreview(attachment: Attachment | null) {
+  if (attachment?.kind === "image") {
+    URL.revokeObjectURL(attachment.previewUrl);
+  }
+}
 
 
 const initialHistory: HistoryItem[] = [
@@ -275,11 +296,97 @@ function HomeMainSection({ brainName, onGetStarted, onWhatsHappening, onChatWith
 
 // ─── Figma Input Box (BottonNavBar default) ───────────────────────────────────
 
-function InputBox({ value, onChange, onSend, inputRef, attachedFile, onAttach }: { value: string; onChange: (v: string) => void; onSend: () => void; inputRef: RefObject<HTMLTextAreaElement | null>; attachedFile: string; onAttach: (f: File | null) => void }) {
+function AttachmentRemoveButton({ onRemove }: { onRemove: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-label="Remove attachment"
+      onClick={onRemove}
+      style={{
+        position: "absolute",
+        right: 7,
+        top: 6,
+        width: 12,
+        height: 12,
+        border: 0,
+        padding: 0,
+        borderRadius: 999,
+        background: "#15171B",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}
+    >
+      <svg width="6" height="6" viewBox="0 0 6 6" fill="none" aria-hidden="true" style={{ display: "block" }}>
+        <path d="M1.05 1.05L4.95 4.95M4.95 1.05L1.05 4.95" stroke="white" strokeOpacity="0.8" strokeWidth="1.1" strokeLinecap="round" />
+      </svg>
+    </button>
+  );
+}
+
+function AttachmentPreview({ attachment, onRemove }: { attachment: Attachment; onRemove: () => void }) {
+  const removeOverlay = (
+    <button
+      type="button"
+      aria-label="Remove attachment"
+      onClick={onRemove}
+      style={{
+        position: "absolute",
+        right: 6,
+        top: 6,
+        width: 12,
+        height: 12,
+        border: 0,
+        padding: 0,
+        background: "transparent",
+        cursor: "pointer",
+      }}
+    />
+  );
+
+  if (attachment.kind === "image") {
+    return (
+      <div style={{ position: "relative", width: 48, height: 48, marginBottom: 8, flexShrink: 0, alignSelf: "flex-start" }}>
+        <div style={{ width: 48, height: 48, borderRadius: 8, overflow: "hidden", background: "rgba(255,255,255,0.05)" }}>
+          <img
+            src={attachment.previewUrl}
+            alt={attachment.name}
+            width={48}
+            height={48}
+            style={{ display: "block", width: 48, height: 48, objectFit: "cover" }}
+          />
+        </div>
+        <AttachmentRemoveButton onRemove={onRemove} />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ position: "relative", width: 137, height: 38, marginBottom: 8, flexShrink: 0, alignSelf: "flex-start" }}>
+      <img
+        src="/file.svg"
+        alt=""
+        width={137}
+        height={38}
+        style={{ display: "block", width: 137, height: 38 }}
+      />
+      {removeOverlay}
+    </div>
+  );
+}
+
+function InputBox({ value, onChange, onSend, inputRef, attachment, onAttach, onRemoveAttachment }: { value: string; onChange: (v: string) => void; onSend: () => void; inputRef: RefObject<HTMLTextAreaElement | null>; attachment: Attachment | null; onAttach: (f: File | null) => void; onRemoveAttachment: () => void }) {
   const [focused, setFocused] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-  const active = focused || Boolean(value.trim()) || Boolean(attachedFile);
+  const active = focused || Boolean(value.trim()) || Boolean(attachment);
   const isInput = active;
+
+  const handleFileChange = (file: File | null) => {
+    onAttach(file);
+    if (fileRef.current) fileRef.current.value = "";
+  };
 
   return (
     <div style={{ flex: "0 0 auto", width: "100%", padding: "0 12px 16px" }}>
@@ -296,6 +403,7 @@ function InputBox({ value, onChange, onSend, inputRef, attachedFile, onAttach }:
         <div style={{ position: "absolute", inset: 0, borderRadius: 16, border: `1.2px solid ${isInput ? "#7053f3" : "#c7bcfa"}`, pointerEvents: "none" }} />
 
         <div style={{ padding: "13px 17px 11px", display: "flex", flexDirection: "column", height: "100%", minHeight: 131 }}>
+          {attachment ? <AttachmentPreview attachment={attachment} onRemove={onRemoveAttachment} /> : null}
           <textarea
             ref={inputRef}
             value={value}
@@ -307,7 +415,6 @@ function InputBox({ value, onChange, onSend, inputRef, attachedFile, onAttach }:
             rows={2}
             style={{ flex: 1, resize: "none", border: 0, outline: 0, background: "transparent", fontFamily: "Poppins, sans-serif", fontWeight: isInput ? 500 : 600, fontSize: 13, lineHeight: "18px", color: isInput ? "#fff" : "rgba(255,255,255,0.3)", whiteSpace: "nowrap", overflow: "hidden" }}
           />
-          {attachedFile ? <div style={{ color: "rgba(255,255,255,.65)", fontSize: 11, marginBottom: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{attachedFile}</div> : null}
           {/* Function row */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
             {/* Add button */}
@@ -321,7 +428,7 @@ function InputBox({ value, onChange, onSend, inputRef, attachedFile, onAttach }:
                 </div>
               </div>
             </button>
-            <input ref={fileRef} type="file" hidden onChange={(e) => onAttach(e.target.files?.[0] ?? null)} />
+            <input ref={fileRef} type="file" hidden accept="image/*,.pdf,.doc,.docx,.txt,.csv,.xls,.xlsx" onChange={(e) => handleFileChange(e.target.files?.[0] ?? null)} />
             {/* Send button */}
             <button type="button" aria-label="Send" onClick={onSend}
               style={{ width: 24, height: 24, border: 0, padding: 0, background: "transparent", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -514,7 +621,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   const [pendingName, setPendingName] = useState("");
   const [message, setMessage] = useState("");
   const [lastSentMessage, setLastSentMessage] = useState("");
-  const [attachedFile, setAttachedFile] = useState("");
+  const [attachment, setAttachment] = useState<Attachment | null>(null);
   const [phase, setPhase] = useState<ProcessPhase>("idle");
   const [phaseSteps, setPhaseSteps] = useState(0);
   const [history, setHistory] = useState(initialHistory);
@@ -522,8 +629,29 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   const [searching, setSearching] = useState(false);
   const [deleteMenu, setDeleteMenu] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<HistoryItem | null>(null);
+  const attachmentRef = useRef<Attachment | null>(null);
   const launcherIconRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    attachmentRef.current = attachment;
+  }, [attachment]);
+
+  useEffect(() => () => revokeAttachmentPreview(attachmentRef.current), []);
+
+  const clearAttachment = () => {
+    setAttachment((current) => {
+      revokeAttachmentPreview(current);
+      return null;
+    });
+  };
+
+  const attachFile = (file: File | null) => {
+    setAttachment((current) => {
+      revokeAttachmentPreview(current);
+      return file ? createAttachment(file) : null;
+    });
+  };
 
   useEffect(() => {
     const anim = launcherIconRef.current?.animate(
@@ -564,12 +692,21 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
     return [...groups.entries()];
   }, [history]);
 
-  const reset = () => { setScreen("home"); setOverlay("none"); setMessage(""); setLastSentMessage(""); setAttachedFile(""); setPhase("idle"); setPhaseSteps(0); setQuery(""); };
-  const send = () => {
-    if (!message.trim() && !attachedFile) return;
-    setLastSentMessage(message.trim() || attachedFile);
+  const reset = () => {
+    setScreen("home");
+    setOverlay("none");
     setMessage("");
-    setAttachedFile("");
+    setLastSentMessage("");
+    clearAttachment();
+    setPhase("idle");
+    setPhaseSteps(0);
+    setQuery("");
+  };
+  const send = () => {
+    if (!message.trim() && !attachment) return;
+    setLastSentMessage(message.trim() || attachment?.name || "");
+    setMessage("");
+    clearAttachment();
     inputRef.current?.blur();
     setScreen("conversation");
     setOverlay("none");
@@ -741,7 +878,15 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
 
         {/* Input / Footer */}
         {screen !== "history"
-          ? <InputBox value={message} onChange={setMessage} onSend={send} inputRef={inputRef} attachedFile={attachedFile} onAttach={(f) => setAttachedFile(f?.name ?? "")} />
+          ? <InputBox
+              value={message}
+              onChange={setMessage}
+              onSend={send}
+              inputRef={inputRef}
+              attachment={attachment}
+              onAttach={attachFile}
+              onRemoveAttachment={clearAttachment}
+            />
           : <div style={{ flex: "0 0 auto", margin: "0 16px 18px", paddingTop: 12, borderTop: "1px solid rgba(255,255,255,.08)", textAlign: "center", color: "rgba(255,255,255,.45)", fontSize: 12 }}>Conversation history is stored for up to 30 days.</div>}
 
         {/* SETTINGS overlay */}
