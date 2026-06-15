@@ -1,5 +1,6 @@
 import svgPaths from "./svg-q2iqge7wla";
 import imgAaveAave1 from "./678e23bd52894b5a1edc03b193b37c5dc716bc17.png";
+import imgPerpBtcChart from "./perp-btc-usdc-chart.png";
 import imgImage from "./0edbc62fb44ab18ebdefc029b6b9cebeeb127049.png";
 import imgImage1 from "./aa9e15ad7d9fdce425fb5e234e613b98ce0b80cf.png";
 import imgImage2 from "./4fa656cc66c1fefe413e23f6539fedcdb2df9d60.png";
@@ -783,8 +784,8 @@ function Image() {
 
 function Container21() {
   return (
-    <div className="-translate-y-1/2 absolute h-[20.941px] left-[4.76px] overflow-clip top-1/2 w-[134.538px]" data-name="Container">
-      <div className="-translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Manrope:SemiBold',sans-serif] font-semibold h-[20.941px] justify-center leading-[0] left-0 text-[#97969b] text-[15.23px] top-[10.47px] tracking-[0.3998px] w-[134.833px]">
+    <div className="-translate-y-1/2 absolute h-[20.941px] left-[4.76px] overflow-clip top-1/2 w-[160px]" data-name="Container">
+      <div className="-translate-y-1/2 absolute flex flex-col font-['Manrope:SemiBold',sans-serif] font-semibold h-[20.941px] justify-center leading-[0] left-0 not-italic text-[#97969b] text-[15.23px] top-[10.47px] tracking-[0.3998px] w-[160px] whitespace-nowrap">
         <p className="leading-[normal]">PERP_BTC_USDC</p>
       </div>
     </div>
@@ -835,7 +836,7 @@ function Container24() {
 
 function Overlay1() {
   return (
-    <div className="absolute bg-[rgba(19,21,25,0.5)] bottom-0 left-0 overflow-clip top-0 w-[242.081px]" data-name="Overlay">
+    <div className="absolute bg-[rgba(19,21,25,0.5)] bottom-0 left-0 overflow-clip top-0 w-[268px]" data-name="Overlay">
       <Container21 />
       <Container22 />
       <Container24 />
@@ -845,7 +846,7 @@ function Overlay1() {
 
 function Paragraph() {
   return (
-    <div className="-translate-y-1/2 [word-break:break-word] absolute font-['Manrope:SemiBold',sans-serif] font-semibold h-[17.134px] leading-[0] left-0 overflow-clip text-[12.374px] top-1/2 tracking-[0.3998px] w-[417.855px]" data-name="Paragraph">
+    <div className="-translate-y-1/2 absolute font-['Manrope:SemiBold',sans-serif] font-semibold h-[17.134px] leading-[0] left-0 overflow-clip text-[12.374px] top-1/2 tracking-[0.3998px] w-[520px] whitespace-nowrap" data-name="Paragraph">
       <div className="-translate-y-1/2 absolute flex flex-col h-[17.134px] justify-center left-[3.81px] text-[#97969b] top-[8.57px] w-[9.864px]">
         <p className="leading-[normal]">O</p>
       </div>
@@ -879,7 +880,7 @@ function Paragraph() {
 
 function Overlay2() {
   return (
-    <div className="absolute bg-[rgba(19,21,25,0.5)] bottom-0 left-[242.08px] overflow-clip top-0 w-[417.855px]" data-name="Overlay">
+    <div className="absolute bg-[rgba(19,21,25,0.5)] bottom-0 left-[268px] overflow-clip top-0 w-[520px]" data-name="Overlay">
       <Paragraph />
     </div>
   );
@@ -896,8 +897,22 @@ function Container20() {
 
 function Container19() {
   return (
-    <div className="absolute h-[26.653px] left-[3.81px] right-[88.52px] top-0" data-name="Container">
-      <Container20 />
+    <div className="absolute h-[26.653px] left-[3.81px] right-[88.52px] top-0 overflow-hidden" data-name="Container">
+      <div className="absolute inset-0 bg-[#131519]" />
+      <div className="absolute flex h-[22.845px] items-center left-0 right-0 top-[3.81px] overflow-hidden px-[4.76px] whitespace-nowrap">
+        <span className="font-['Manrope:SemiBold',sans-serif] font-semibold shrink-0 text-[15.23px] text-[#97969b] tracking-[0.3998px]">PERP_BTC_USDC · 15 · Orderly</span>
+        <span className="font-['Manrope:SemiBold',sans-serif] font-semibold ml-[12px] shrink-0 text-[12.374px] tracking-[0.3998px]">
+          <span className="text-[#97969b]">O</span>
+          <span className="text-[#d92d6b]">111975.0 </span>
+          <span className="text-[#97969b]">H</span>
+          <span className="text-[#d92d6b]">112009.0 </span>
+          <span className="text-[#97969b]">L</span>
+          <span className="text-[#d92d6b]">111772.1 </span>
+          <span className="text-[#97969b]">C</span>
+          <span className="text-[#d92d6b]">111855.2 </span>
+          <span className="text-[#d92d6b]">−121.5 (−0.11%)</span>
+        </span>
+      </div>
     </div>
   );
 }
@@ -982,8 +997,12 @@ function Container28() {
 
 function Container27() {
   return (
-    <div className="absolute h-[26.653px] left-[3.81px] right-[111.37px] top-0" data-name="Container">
-      <Container28 />
+    <div className="absolute h-[26.653px] left-[3.81px] right-[88.52px] top-0 overflow-hidden" data-name="Container">
+      <div className="absolute inset-0 bg-[#131519]" />
+      <div className="absolute flex h-[22.845px] items-center left-0 top-[3.81px] overflow-hidden px-[4.76px] whitespace-nowrap">
+        <span className="font-['Manrope:SemiBold',sans-serif] font-semibold text-[12.374px] text-[#97969b] tracking-[0.3998px]">Volume </span>
+        <span className="font-['Manrope:SemiBold',sans-serif] font-semibold text-[12.374px] text-[#7e2245] tracking-[0.3998px]">7</span>
+      </div>
     </div>
   );
 }
@@ -1136,9 +1155,12 @@ function Background() {
 
 function Frame508() {
   return (
-    <div className="content-stretch flex flex-col gap-[3px] items-start relative shrink-0 w-[993px]">
-      <KChartBar />
-      <Background />
+    <div className="content-stretch flex flex-col items-start overflow-clip relative rounded-[3.808px] shrink-0 w-[993px]" data-name="PERP_BTC_USDC chart">
+      <img
+        alt="PERP_BTC_USDC TradingView chart"
+        className="block h-[751px] w-[993px] max-w-none object-cover object-left-top shrink-0"
+        src={imgPerpBtcChart}
+      />
     </div>
   );
 }
@@ -1235,7 +1257,7 @@ function Frame85() {
     <div className="h-[24px] relative shrink-0 w-full">
       <div className="flex flex-row items-center size-full">
         <div className="content-stretch flex gap-[12px] items-center px-[12px] relative size-full">
-          <p className="[word-break:break-word] font-['Manrope:SemiBold',sans-serif] font-semibold h-[18px] leading-[18px] relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] w-[72px]">Price(USDC)</p>
+          <p className="font-['Manrope:SemiBold',sans-serif] font-semibold h-[18px] leading-[18px] relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] whitespace-nowrap w-[80px]">Price(USDC)</p>
           <Frame238 />
         </div>
       </div>
@@ -1871,10 +1893,15 @@ function Frame509() {
   );
 }
 
-function Frame304() {
+function Frame304({ positionCount = 2 }: { positionCount?: number }) {
   return (
     <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
-      <p className="font-['Poppins:Bold',sans-serif] relative shrink-0 text-[rgba(255,255,255,0.9)]">Positions(2)</p>
+      <p
+        className="font-['Poppins:Bold',sans-serif] relative shrink-0 text-[rgba(255,255,255,0.9)] whitespace-nowrap"
+        style={positionCount === 1 ? { position: "relative", top: 2 } : undefined}
+      >
+        {`Positions(${positionCount})`}
+      </p>
       <p className="font-['Poppins:Medium',sans-serif] relative shrink-0 text-[rgba(255,255,255,0.4)]">Pending</p>
     </div>
   );
@@ -1900,10 +1927,10 @@ function Frame306() {
   );
 }
 
-function Frame488() {
+function Frame488({ positionCount = 2 }: { positionCount?: number }) {
   return (
     <div className="[word-break:break-word] content-stretch flex gap-[16px] items-center leading-[20px] not-italic relative shrink-0 text-[12px] whitespace-nowrap">
-      <Frame304 />
+      <Frame304 positionCount={positionCount} />
       <Frame305 />
       <Frame306 />
     </div>
@@ -1938,22 +1965,25 @@ function HideOtherSymbols() {
   );
 }
 
-function Frame107() {
+function Frame107({ positionCount = 2 }: { positionCount?: number }) {
   return (
     <div className="content-stretch flex h-[24px] items-center justify-between relative shrink-0 w-full">
-      <Frame488 />
+      <Frame488 positionCount={positionCount} />
       <HideOtherSymbols />
     </div>
   );
 }
 
-function Frame106() {
+function Frame106({ positionCount = 2 }: { positionCount?: number }) {
   return (
     <div className="bg-[#121419] relative shrink-0 w-full">
       <div className="content-stretch flex flex-col gap-[10px] items-start pt-[10px] px-[20px] relative size-full">
-        <Frame107 />
+        <Frame107 positionCount={positionCount} />
         <div className="bg-[rgba(227,231,234,0.1)] h-px relative shrink-0 w-full" />
-        <div className="absolute bg-[rgba(255,255,255,0.9)] h-[2px] left-[20px] rounded-[4px] top-[42px] w-[73px]" />
+        <div
+          className="absolute bg-[rgba(255,255,255,0.9)] h-[2px] left-[20px] rounded-[4px] top-[42px]"
+          style={{ width: positionCount === 1 ? 68 : 73 }}
+        />
       </div>
     </div>
   );
@@ -2292,9 +2322,8 @@ function Frame424() {
 function Frame481() {
   return (
     <div className="content-stretch flex gap-[4px] h-[36px] items-center relative shrink-0 w-[130px]">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-full justify-center leading-[0] not-italic relative shrink-0 text-[#ff41a3] text-[12px] tracking-[-0.36px] w-[96px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[12px] mb-0">-847</p>
-        <p className="leading-[12px]">(-8.4%)</p>
+      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-full justify-center leading-[0] not-italic relative shrink-0 text-[#ff41a3] text-[12px] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <p className="leading-[12px]">-847 (-8.4%)</p>
       </div>
       <div className="relative shrink-0 size-[14px]" data-name="share">
         <div className="absolute inset-[8.14%_16.67%_8.53%_16.65%]" data-name="Vector">
@@ -2338,7 +2367,7 @@ function Frame109() {
             <p className="leading-[18px]">Add</p>
           </div>
           <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-[36px] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.9)] tracking-[-0.36px] w-[130px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-            <p className="leading-[12px]">8,433</p>
+            <p className="leading-[12px]">7,587</p>
           </div>
         </div>
       </div>
@@ -2417,9 +2446,8 @@ function Frame425() {
 function Frame482() {
   return (
     <div className="content-stretch flex gap-[4px] h-[36px] items-center relative shrink-0 w-[130px]">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-full justify-center leading-[0] not-italic relative shrink-0 text-[#ff41a3] text-[12px] tracking-[-0.36px] w-[96px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[12px] mb-0">-12</p>
-        <p className="leading-[12px]">(-1.2%)</p>
+      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-full justify-center leading-[0] not-italic relative shrink-0 text-[#ff41a3] text-[12px] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <p className="leading-[12px]">-12 (-1.2%)</p>
       </div>
       <div className="relative shrink-0 size-[14px]" data-name="share">
         <div className="absolute inset-[8.14%_16.67%_8.53%_16.65%]" data-name="Vector">
@@ -2455,7 +2483,7 @@ function Frame110() {
             <p className="leading-[12px]">2.79</p>
           </div>
           <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-[36px] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.9)] tracking-[-0.36px] w-[130px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-            <p className="leading-[12px]">2.41</p>
+            <p className="leading-[12px]">268</p>
           </div>
           <Frame482 />
           <Frame311 />
@@ -2463,7 +2491,7 @@ function Frame110() {
             <p className="leading-[18px]">Add</p>
           </div>
           <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] h-[36px] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.9)] tracking-[-0.36px] w-[130px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-            <p className="leading-[12px]">558</p>
+            <p className="leading-[12px]">795</p>
           </div>
         </div>
       </div>
@@ -2576,13 +2604,13 @@ function Frame431() {
   );
 }
 
-function OrdersTab() {
+function OrdersTab({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
   return (
     <div className="bg-[#121419] flex-[1_0_0] min-h-px relative w-full" data-name="OrdersTab">
       <div className="content-stretch flex flex-col items-start pb-[8px] px-[20px] relative size-full">
         <Frame108 />
         <div className="bg-[rgba(227,231,234,0.05)] h-px relative shrink-0 w-full" />
-        <Frame109 />
+        {!btcPositionClosed && <Frame109 />}
         <Frame110 />
         <Frame431 />
       </div>
@@ -2646,49 +2674,50 @@ function Frame429() {
   );
 }
 
-function Frame428() {
+function Frame428({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
   return (
-    <div className="content-stretch flex flex-col gap-px h-[129px] items-start relative shrink-0">
+    <div className={`content-stretch flex flex-col gap-px items-start relative shrink-0 ${btcPositionClosed ? "h-[85px]" : "h-[129px]"}`}>
       <Frame426 />
       <Frame427 />
-      <Frame429 />
+      {!btcPositionClosed && <Frame429 />}
     </div>
   );
 }
 
-function Shadow() {
+function Shadow({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
   return (
-    <div className="col-1 content-stretch flex h-[172px] items-start justify-end ml-0 mt-0 relative row-1" data-name="shadow">
-      <Frame428 />
+    <div className={`col-1 content-stretch flex items-start justify-end ml-0 mt-0 relative row-1 ${btcPositionClosed ? "h-[128px]" : "h-[172px]"}`} data-name="shadow">
+      <Frame428 btcPositionClosed={btcPositionClosed} />
     </div>
   );
 }
 
-function Group4() {
+function Group4({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
   return (
     <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-[1188px] mt-[46px] place-items-start relative row-1">
-      <Shadow />
+      <Shadow btcPositionClosed={btcPositionClosed} />
     </div>
   );
 }
 
-function Group6() {
+function Group6({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
+  const positionCount = btcPositionClosed ? 1 : 2;
   return (
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
-      <div className="bg-[#121419] col-1 content-stretch flex flex-col h-[362px] items-start ml-0 mt-0 overflow-clip relative rounded-[4px] row-1 w-[1288px]" data-name="Positions">
-        <Frame106 />
-        <OrdersTab />
+      <div className={`bg-[#121419] col-1 content-stretch flex flex-col items-start ml-0 mt-0 overflow-clip relative rounded-[4px] row-1 w-[1288px] ${btcPositionClosed ? "h-[318px]" : "h-[362px]"}`} data-name="Positions">
+        <Frame106 positionCount={positionCount} />
+        <OrdersTab btcPositionClosed={btcPositionClosed} />
       </div>
-      <Group4 />
+      <Group4 btcPositionClosed={btcPositionClosed} />
     </div>
   );
 }
 
-function Frame510() {
+function Frame510({ btcPositionClosed = false }: { btcPositionClosed?: boolean }) {
   return (
     <div className="absolute content-stretch flex flex-col gap-[3px] items-start left-[306px] top-[51px] w-[1288px]">
       <Frame509 />
-      <Group6 />
+      <Group6 btcPositionClosed={btcPositionClosed} />
     </div>
   );
 }
@@ -3259,7 +3288,7 @@ function Frame499() {
   return (
     <div className="content-stretch flex gap-[2px] items-center relative shrink-0">
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[rgba(255,255,255,0.9)] tracking-[-0.36px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[12px]">----</p>
+        <p className="leading-[12px]">89,500</p>
       </div>
       <p className="font-['Manrope:SemiBold',sans-serif] font-semibold leading-[18px] relative shrink-0 text-[rgba(255,255,255,0.5)]">USDC</p>
     </div>
@@ -7260,11 +7289,15 @@ function Markets() {
   );
 }
 
-export default function TradingOpenMarkets() {
+export type TradingOpenMarketsProps = {
+  btcPositionClosed?: boolean;
+};
+
+export default function TradingOpenMarkets({ btcPositionClosed = false }: TradingOpenMarketsProps) {
   return (
     <div className="bg-black relative size-full" data-name="Trading | Open Markets">
       <Frame />
-      <Frame510 />
+      <Frame510 btcPositionClosed={btcPositionClosed} />
       <Frame507 />
       <div className="absolute content-stretch flex h-[48px] items-center justify-between left-0 px-[12px] py-[4px] top-0 w-[1920px]" style={{ backgroundImage: "linear-gradient(90deg, rgb(59, 61, 72) 1.4427%, rgb(18, 20, 25) 2.8854%, rgb(18, 20, 25) 47.596%, rgb(18, 20, 25) 88.945%, rgb(113, 88, 241) 93%, rgba(139, 217, 202, 0.95) 98%, rgba(179, 234, 176, 0.9) 100%)" }} data-name="Nav Bar_1920">
         <Frame7 />

@@ -489,7 +489,7 @@ function Frame32() {
 function Frame19() {
   return (
     <div className="[word-break:break-word] content-stretch flex gap-[4px] items-center leading-[0] not-italic relative shrink-0 w-full">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[28px] text-white tracking-[-0.84px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[28px] text-white tracking-[-0.84px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         <p className="leading-[28px]">2,006.05</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] h-full justify-end relative shrink-0 text-[12px] text-[rgba(255,255,255,0.3)] w-[34px]">
@@ -527,14 +527,8 @@ function DivOuiBox() {
 function Frame128() {
   return (
     <div className="content-stretch flex gap-[4px] items-start relative shrink-0 w-full">
-      <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[#ff41a3] text-[0px] tracking-[-0.48px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p>
-          <span className="leading-[16px] text-[#ff41a3] text-[16px]">-123,456,789,24</span>
-          <span className="leading-[16px] text-[#ff41a3] text-[16px]">{` `}</span>
-          <span className="[word-break:break-word] font-['Poppins:Bold',sans-serif] leading-[13px] not-italic text-[#992762] text-[13px] tracking-[-0.39px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-            (-0.16%)
-          </span>
-        </p>
+      <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[#ff41a3] text-[16px] tracking-[-0.48px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <p className="leading-[16px]">-859.24</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] h-[18px] justify-center relative shrink-0 text-[12px] text-[rgba(255,255,255,0.3)] w-[34px]">
         <p className="leading-[18px]">USDC</p>
@@ -558,7 +552,7 @@ function Frame129() {
   return (
     <div className="content-stretch flex gap-[4px] items-start relative shrink-0 w-full">
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[16px] text-white tracking-[-0.48px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[16px]">2,004.52</p>
+        <p className="leading-[16px]">1,146.81</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] h-[18px] justify-center relative shrink-0 text-[12px] text-[rgba(255,255,255,0.3)] w-[34px]">
         <p className="leading-[18px]">USDC</p>
@@ -695,7 +689,7 @@ function Group5() {
   return (
     <div className="absolute bottom-[1.28%] contents right-[400px] top-[91.03%]" data-name="Group">
       <p className="[word-break:break-word] absolute bottom-[1.28%] font-['Poppins:Medium',sans-serif] leading-[12px] not-italic right-[468px] text-[12px] text-[rgba(255,255,255,0.5)] top-[91.03%] tracking-[-0.36px] translate-x-full whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        2025-09-19
+        2026-06-09
       </p>
     </div>
   );
@@ -939,7 +933,7 @@ function Frame127() {
   return (
     <div className="content-stretch flex items-start relative shrink-0 w-full">
       <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[#ff41a3] text-[16px] tracking-[-0.48px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[16px]">-0.10%</p>
+        <p className="leading-[16px]">-28.4%</p>
       </div>
     </div>
   );
@@ -1008,7 +1002,7 @@ function Frame115() {
         <p className="leading-[18px]">7D Volume (USDC)</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[rgba(255,255,255,0.3)] tracking-[-0.36px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[12px]">2025-10-29</p>
+        <p className="leading-[12px]">2026-06-16</p>
       </div>
     </div>
   );
@@ -1019,7 +1013,7 @@ function Frame113() {
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[8px] items-start justify-center leading-[0] not-italic relative shrink-0 w-full whitespace-nowrap">
       <Frame115 />
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[16px] text-white tracking-[-0.48px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[16px]">693,450.71</p>
+        <p className="leading-[16px]">728,314.25</p>
       </div>
     </div>
   );
@@ -1299,7 +1293,7 @@ function Frame3() {
   return (
     <div className="[word-break:break-word] content-stretch flex font-['Poppins:SemiBold',sans-serif] gap-[4px] items-center not-italic relative shrink-0 text-[14px] text-right whitespace-nowrap">
       <p className="leading-[14px] relative shrink-0 text-[#5deed9] tracking-[-0.42px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        +326.75
+        +184.23
       </p>
       <p className="leading-[normal] relative shrink-0 text-[rgba(255,255,255,0.4)]">USDC</p>
     </div>
@@ -1314,7 +1308,7 @@ function Group19() {
         <div aria-hidden className="absolute border border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[4px]" />
         <Frame3 />
         <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[12px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-          2024-11-14
+          2026-06-15
         </p>
       </div>
     </div>
@@ -1399,9 +1393,9 @@ function Frame2() {
       <Group19 />
       <Group30 />
       <p className="[word-break:break-word] absolute font-['Poppins:Medium',sans-serif] inset-[92.08%_70.62%_2.92%_10.98%] leading-[12px] not-italic text-[12px] text-[rgba(255,255,255,0.5)] tracking-[-0.36px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        2025-10-08
+        2026-06-10
       </p>
-      <p className="[word-break:break-word] absolute font-['Manrope:Medium',sans-serif] font-medium inset-[90.83%_1.54%_1.67%_91.7%] leading-[18px] text-[12px] text-[rgba(255,255,255,0.5)] text-right" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <p className="[word-break:break-word] absolute bottom-[6px] right-[6px] font-['Manrope:Medium',sans-serif] font-medium leading-[12px] not-italic text-[12px] text-[rgba(255,255,255,0.5)] text-right whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         Now
       </p>
     </div>
@@ -1617,9 +1611,9 @@ function Frame4() {
     <div className="h-[240px] overflow-clip relative shrink-0 w-full" data-name="Frame">
       <Group37 />
       <p className="[word-break:break-word] absolute bottom-[5%] font-['Poppins:Medium',sans-serif] leading-[12px] left-[38.5px] not-italic text-[12px] text-[rgba(255,255,255,0.5)] top-[90%] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        2025-09-19
+        2026-06-09
       </p>
-      <p className="[word-break:break-word] absolute font-['Manrope:Medium',sans-serif] font-medium inset-[90%_1.77%_2.5%_91.46%] leading-[18px] text-[12px] text-[rgba(255,255,255,0.5)] text-right" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <p className="[word-break:break-word] absolute bottom-[6px] right-[6px] font-['Manrope:Medium',sans-serif] font-medium leading-[12px] not-italic text-[12px] text-[rgba(255,255,255,0.5)] text-right whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         Now
       </p>
       <Group39 />
@@ -1639,7 +1633,7 @@ function Frame4() {
         <div aria-hidden className="absolute border border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[4px]" />
         <Frame5 />
         <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[12px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-          2025-10-09
+          2026-06-16
         </p>
       </div>
     </div>
@@ -2642,7 +2636,7 @@ function Frame159() {
   return (
     <div className="[word-break:break-word] content-stretch flex font-['Poppins:SemiBold',sans-serif] gap-[2px] items-end leading-[0] not-italic relative shrink-0 text-white whitespace-nowrap">
       <div className="flex flex-col justify-center relative shrink-0 text-[28px] tracking-[-0.84px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[28px]">88</p>
+        <p className="leading-[28px]">76</p>
       </div>
       <div className="flex flex-col justify-center relative shrink-0 text-[13px]">
         <p className="leading-[16px]">%</p>
@@ -2664,7 +2658,7 @@ function Group50() {
   return (
     <div className="grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0 w-full">
       <div className="bg-[rgba(217,217,217,0.16)] col-1 h-[6px] ml-0 mt-0 relative rounded-[999px] row-1 w-full" />
-      <div className="bg-gradient-to-r col-1 from-[#7053f3] h-[6px] ml-0 mt-0 relative rounded-[999px] row-1 to-[#e3ff94] to-[103.25%] via-[#76bab2] via-[47.411%] w-[90.57%]" />
+      <div className="bg-gradient-to-r col-1 from-[#7053f3] h-[6px] ml-0 mt-0 relative rounded-[999px] row-1 to-[#e3ff94] to-[103.25%] via-[#76bab2] via-[47.411%] w-[78.22%]" />
     </div>
   );
 }
@@ -2892,7 +2886,7 @@ function Frame134() {
   return (
     <div className="[word-break:break-word] content-stretch flex gap-[2px] items-end leading-[0] not-italic relative shrink-0 whitespace-nowrap">
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[13px] text-right text-white">
-        <p className="leading-[20px]">{`3.6 `}</p>
+        <p className="leading-[20px]">{`5.2 `}</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)]">
         <p className="leading-[16px]">/Day</p>
@@ -2924,7 +2918,7 @@ function Frame139() {
   return (
     <div className="[word-break:break-word] content-stretch flex gap-[2px] items-end leading-[0] not-italic relative shrink-0 whitespace-nowrap">
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[#46ccb9] text-[13px] text-right">
-        <p className="leading-[20px]">$1,287</p>
+        <p className="leading-[20px]">428</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)]">
         <p className="leading-[16px]">USDC</p>
@@ -2956,7 +2950,7 @@ function Frame143() {
   return (
     <div className="[word-break:break-word] content-stretch flex gap-[2px] items-end leading-[0] not-italic relative shrink-0 whitespace-nowrap">
       <div className="flex flex-col font-['Poppins:Bold',sans-serif] justify-center relative shrink-0 text-[#ff41a3] text-[13px] text-right">
-        <p className="leading-[20px]">$1,234</p>
+        <p className="leading-[20px]">691</p>
       </div>
       <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)]">
         <p className="leading-[16px]">USDC</p>
@@ -3011,7 +3005,7 @@ function Frame157() {
         <p className="leading-[18px]">Last Update</p>
       </div>
       <div className="flex flex-col justify-center relative shrink-0 tracking-[-0.36px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
-        <p className="leading-[12px]">2026/05/09 00:00:00</p>
+        <p className="leading-[12px]">2026/06/16 06:48</p>
       </div>
     </div>
   );

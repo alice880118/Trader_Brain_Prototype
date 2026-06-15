@@ -4,7 +4,30 @@ import imgCard1 from "../../imports/img.png";
 import imgCard2 from "../../imports/img-1.png";
 import imgCard3 from "../../imports/img-2.png";
 
-// ── Navigation ────────────────────────────────────────────────────────────────
+const STEPS = [
+  {
+    num: "01",
+    title: "Conversation",
+    description: "Share your trading habits with Brain.",
+    image: imgCard1,
+    alt: "Conversation",
+  },
+  {
+    num: "02",
+    title: "Trade History",
+    description: "Your trades help Brain understand your trading behavior.",
+    image: imgCard2,
+    alt: "Trade History",
+  },
+  {
+    num: "03",
+    title: "Model Growth",
+    description: "More data unlocks smarter insights and recommendations.",
+    image: imgCard3,
+    alt: "Model Growth",
+  },
+] as const;
+
 function ChevronBtn({ disabled, onClick }: { disabled?: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} disabled={disabled}
@@ -35,7 +58,6 @@ function PrevBtn({ disabled, onClick }: { disabled?: boolean; onClick: () => voi
   );
 }
 
-// ── Card Header ───────────────────────────────────────────────────────────────
 function CardHeader({ num, title, onClose }: { num: string; title: string; onClose: () => void }) {
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexShrink: 0 }}>
@@ -56,93 +78,37 @@ function CardHeader({ num, title, onClose }: { num: string; title: string; onClo
   );
 }
 
-// ── Card 1: Conversation ──────────────────────────────────────────────────────
-function Card1({ onClose }: { onClose: () => void }) {
+function CardBody({ description, image, alt }: { description: string; image: string; alt: string }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-start", width: "100%" }}>
-      <CardHeader num="01" title="Conversation" onClose={onClose} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexShrink: 0 }}>
-        <p style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.7)", width: 171, margin: 0 }}>Share your trading habits with Brain.</p>
-        <div style={{ width: 79, height: 69, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img src={imgCard1} alt="Conversation" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-        </div>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexShrink: 0, minHeight: 69 }}>
+      <p style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.7)", width: 171, margin: 0 }}>{description}</p>
+      <div style={{ width: 79, height: 69, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <img src={image} alt={alt} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
       </div>
     </div>
   );
 }
 
-// ── Card 2: Trade History ─────────────────────────────────────────────────────
-function Card2({ onClose }: { onClose: () => void }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-start", width: "100%" }}>
-      <CardHeader num="02" title="Trade History" onClose={onClose} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexShrink: 0 }}>
-        <p style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.7)", width: 171, margin: 0 }}>Your trades help Brain understand your trading behavior.</p>
-        <div style={{ width: 79, height: 69, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img src={imgCard2} alt="Trade History" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Card 3: Model Growth ──────────────────────────────────────────────────────
-function Card3({ onClose }: { onClose: () => void }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-start", width: "100%" }}>
-      <CardHeader num="03" title="Model Growth" onClose={onClose} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexShrink: 0 }}>
-        <p style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.7)", width: 171, margin: 0 }}>More data unlocks smarter insights and recommendations.</p>
-        <div style={{ width: 79, height: 69, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img src={imgCard3} alt="Model Growth" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── Main overlay component ────────────────────────────────────────────────────
 export function QuickStartOverlay({ onClose }: { onClose: () => void }) {
   const [index, setIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-
-  const go = (next: number) => {
-    if (animating) return;
-    setAnimating(true);
-    setIndex(next);
-    setTimeout(() => setAnimating(false), 320);
-  };
-
-  const cards = [
-    <Card1 key={0} onClose={onClose} />,
-    <Card2 key={1} onClose={onClose} />,
-    <Card3 key={2} onClose={onClose} />,
-  ];
+  const step = STEPS[index];
 
   return (
-    <div onClick={onClose} style={{ position: "absolute", inset: 0, zIndex: 34, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "100%", borderRadius: 12, border: "1px solid rgba(255,255,255,0.35)", background: "#151617", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 8, overflow: "hidden" }}>
+    <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", inset: 0, zIndex: 34, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}>
+      <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()} style={{ position: "relative", width: "100%", borderRadius: 12, border: "1px solid rgba(255,255,255,0.35)", background: "#151617", padding: "12px 16px", display: "flex", flexDirection: "column", gap: 8, overflow: "hidden" }}>
 
-        {/* Sliding cards */}
-        <div style={{ overflow: "hidden", width: "100%" }}>
-          <div style={{ display: "flex", transition: "transform 300ms cubic-bezier(.22,1,.36,1)", transform: `translateX(${-index * 100}%)`, willChange: "transform" }}>
-            {cards.map((card, i) => (
-              <div key={i} style={{ flexShrink: 0, width: "100%" }}>
-                {card}
-              </div>
-            ))}
-          </div>
-        </div>
+        <CardHeader num={step.num} title={step.title} onClose={onClose} />
 
-        {/* Navigation */}
+        <CardBody key={index} description={step.description} image={step.image} alt={step.alt} />
+
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexShrink: 0 }}>
-          <PrevBtn disabled={index === 0} onClick={() => go(index - 1)} />
+          <PrevBtn disabled={index === 0} onClick={() => setIndex((i) => i - 1)} />
           <p style={{ fontFamily: "Poppins, sans-serif", fontSize: 12, lineHeight: "18px", color: "rgba(255,255,255,0.6)", margin: 0, textAlign: "center" }}>
             <span style={{ fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>{index + 1}</span>
             <span style={{ color: index === 2 ? "#fff" : "rgba(255,255,255,0.4)" }}>/3</span>
           </p>
           {index < 2
-            ? <ChevronBtn onClick={() => go(index + 1)} />
+            ? <ChevronBtn onClick={() => setIndex((i) => i + 1)} />
             : (
               <button type="button" onClick={onClose}
                 style={{ height: 20, padding: "0 10px", borderRadius: 12, background: "#dbfd5c", border: 0, cursor: "pointer", fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 12, color: "rgba(0,0,0,0.8)", whiteSpace: "nowrap" }}>

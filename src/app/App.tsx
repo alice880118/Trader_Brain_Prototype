@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, startTransition } from "react";
 import type { ComponentType } from "react";
+import type { TradingOpenMarketsProps } from "../imports/TradingOpenMarkets/index";
 import { BrainWidget } from "./components/brain-widget";
 import { CriticalSignalOverlay } from "./components/alert-window-panel";
 import {
@@ -48,6 +49,8 @@ export default function App() {
   const [inputsFilled, setInputsFilled]   = useState(false);
   // 1920 design coords of the Close button click (Settings placement)
   const [closeBtnPos, setCloseBtnPos]     = useState<{ x: number; y: number } | null>(null);
+  const [closingRow, setClosingRow]       = useState<1 | 2 | null>(null);
+  const [btcPositionClosed, setBtcPositionClosed] = useState(false);
   const alertTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const [brainOpen, setBrainOpen] = useState(false);
@@ -79,9 +82,28 @@ export default function App() {
 
   useEffect(() => () => { if (alertTimerRef.current) clearTimeout(alertTimerRef.current); }, []);
 
+  useEffect(() => {
+    if (brainOpen || briefOpen) setHoverRow(null);
+  }, [brainOpen, briefOpen]);
+
+  useEffect(() => {
+    if (activeBg === "trade") return;
+    setInputsFilled(false);
+    setHoverRow(null);
+    if (alertTimerRef.current) {
+      clearTimeout(alertTimerRef.current);
+      alertTimerRef.current = null;
+    }
+    if (overlayModal !== "none") {
+      setOverlayModal("none");
+      setCloseBtnPos(null);
+      setClosingRow(null);
+    }
+  }, [activeBg]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleFrameClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Let modal's own click handlers work when open
-    if (overlayModal !== "none") return;
+    // Block background interactions while Brain, Brief, or blocking modals are open
+    if (overlayModal === "settings" || overlayModal === "postloss" || brainOpen || briefOpen) return;
 
     const rect   = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
     const frameX = (e.clientX - rect.left) / dims.scale; // 1920px design coords
@@ -105,30 +127,50 @@ export default function App() {
     }
 
     // ── Feature 1: Close button in Positions (y > 600) ─────────
-    // Positions table lives below the chart area (y ≈ 640–1050 in 1920px design)
     if (activeBg === "trade" && text === "Close" && frameY > 600) {
+      if (frameY >= POSITION_ROW_1_Y && frameY < POSITION_ROW_1_Y + POSITION_ROW_H) {
+        if (btcPositionClosed) return;
+        setClosingRow(1);
+      } else if (!btcPositionClosed && frameY >= POSITION_ROW_2_Y && frameY < POSITION_ROW_2_Y + POSITION_ROW_H) {
+        setClosingRow(2);
+      } else {
+        setClosingRow(null);
+      }
       setCloseBtnPos({ x: frameX, y: frameY });
       setOverlayModal("settings");
       return;
     }
 
-    // ── Feature 2: click any order input → fill all values → alert after 2s ──
+    // ── Feature 2: click order input → fill values → alert after 1s; click again to reset ──
     if (activeBg === "trade" && frameX > 1597 && frameX < 1930) {
       const inInputZone = frameY >= TRADE_PRICE_Y && frameY < TRADE_QTY_Y + TRADE_QTY_H;
-      if (inInputZone && !inputsFilled) {
+      if (inInputZone) {
+        if (inputsFilled) {
+          setInputsFilled(false);
+          if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
+          alertTimerRef.current = null;
+          if (overlayModal === "alert") setOverlayModal("none");
+          return;
+        }
         setInputsFilled(true);
         if (alertTimerRef.current) clearTimeout(alertTimerRef.current);
-        alertTimerRef.current = setTimeout(() => setOverlayModal("alert"), 2000);
+        alertTimerRef.current = setTimeout(() => setOverlayModal("alert"), 1000);
         return;
       }
     }
   };
 
-  const handleCancel   = () => setOverlayModal("none");
-  const handleConfirm  = () => setOverlayModal("postloss");
+  const handleCancel   = () => {
+    setOverlayModal("none");
+    setClosingRow(null);
+    setCloseBtnPos(null);
+  };
+  const handleConfirm  = () => {
+    if (closingRow === 1) setBtcPositionClosed(true);
+    setOverlayModal("postloss");
+  };
   const handleAlertClose = () => {
     setOverlayModal("none");
-    setInputsFilled(false);
     setCloseBtnPos(null);
   };
 
@@ -165,37 +207,52 @@ export default function App() {
           height: dims.height,
           overflow: "hidden",
         }}
-        onClick={handleFrameClick}
-        onMouseMove={(e) => {
-          if (activeBg !== "trade") { if (hoverRow !== null) setHoverRow(null); return; }
-          const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-          const fy = (e.clientY - rect.top) / dims.scale;
-          if (fy >= POSITION_ROW_1_Y && fy < POSITION_ROW_1_Y + POSITION_ROW_H) { if (hoverRow !== 1) setHoverRow(1); }
-          else if (fy >= POSITION_ROW_2_Y && fy < POSITION_ROW_2_Y + POSITION_ROW_H) { if (hoverRow !== 2) setHoverRow(2); }
-          else { if (hoverRow !== null) setHoverRow(null); }
-        }}
-        onMouseLeave={() => setHoverRow(null)}
       >
-        {/* Scaled background */}
+        {/* Scaled background — click handlers only here so Brain/Brief overlays never bubble through */}
         <div
           style={{
             position: "absolute", top: 0, left: 0,
             width: DESIGN_W, height: DESIGN_H,
             transformOrigin: "top left",
             transform: `scale(${dims.scale})`,
+            pointerEvents: brainOpen || briefOpen || overlayModal === "settings" || overlayModal === "postloss" ? "none" : "auto",
           }}
+          onClick={handleFrameClick}
+          onMouseMove={(e) => {
+            if (brainOpen || briefOpen || overlayModal === "settings" || overlayModal === "postloss") {
+              if (hoverRow !== null) setHoverRow(null);
+              return;
+            }
+            if (activeBg !== "trade") { if (hoverRow !== null) setHoverRow(null); return; }
+            const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+            const fy = (e.clientY - rect.top) / dims.scale;
+            if (fy >= POSITION_ROW_1_Y && fy < POSITION_ROW_1_Y + POSITION_ROW_H) {
+              if (hoverRow !== 1) setHoverRow(1);
+            }
+            else if (!btcPositionClosed && fy >= POSITION_ROW_2_Y && fy < POSITION_ROW_2_Y + POSITION_ROW_H) { if (hoverRow !== 2) setHoverRow(2); }
+            else { if (hoverRow !== null) setHoverRow(null); }
+          }}
+          onMouseLeave={() => setHoverRow(null)}
         >
           {BgComp
-            ? <BgComp />
+            ? activeBg === "trade"
+              ? (() => {
+                  const TradeBg = BgComp as ComponentType<TradingOpenMarketsProps>;
+                  return <TradeBg btcPositionClosed={btcPositionClosed} />;
+                })()
+              : <BgComp />
             : <div style={{ width: "100%", height: "100%", background: "#0c0d10" }} />}
-          <TradeOverlays
-            modal={overlayModal}
-            inputsFilled={inputsFilled}
-            closeBtnPos={closeBtnPos}
-            hoverRow={hoverRow}
-            onCancel={handleCancel}
-            onConfirm={handleConfirm}
-          />
+          {activeBg === "trade" && (
+            <TradeOverlays
+              modal={overlayModal}
+              inputsFilled={inputsFilled}
+              closeBtnPos={closeBtnPos}
+              hoverRow={hoverRow}
+              btcPositionClosed={btcPositionClosed}
+              onCancel={handleCancel}
+              onConfirm={handleConfirm}
+            />
+          )}
         </div>
 
         {/* Trader Archetype React component — overlays Default3 panel on Portfolio page */}
@@ -229,12 +286,12 @@ export default function App() {
         />
 
         {/* Brain widget — above page overlays when open */}
-        <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 200 }}>
+        <div style={{ position: "absolute", inset: 0, pointerEvents: brainOpen ? "auto" : "none", zIndex: 200 }}>
           <BrainWidget open={brainOpen} onOpenChange={setBrainOpen} scale={dims.scale} />
         </div>
 
         {/* Critical Signal — in front of Brain icon */}
-        {overlayModal === "alert" && (
+        {activeBg === "trade" && overlayModal === "alert" && (
           <CriticalSignalOverlay scale={dims.scale} onClose={handleAlertClose} />
         )}
       </div>

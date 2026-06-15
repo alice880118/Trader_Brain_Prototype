@@ -236,9 +236,9 @@ export default function Frame967({ onTalkToBrain }: Props) {
           </span>
         </div>
 
-        <div className="ta-score"><strong>88</strong><span>%</span></div>
-        <div className="ta-track" aria-label="Confidence 88 percent">
-          <div className="ta-fill" style={{ width: "88%" }} />
+        <div className="ta-score"><strong>76</strong><span>%</span></div>
+        <div className="ta-track" aria-label="Confidence 76 percent">
+          <div className="ta-fill" style={{ width: "76%" }} />
         </div>
 
         <section ref={detailsRef} className={`ta-details${expanded ? " expanded" : ""}`} aria-label="Behavioral details">
@@ -279,16 +279,16 @@ export default function Frame967({ onTalkToBrain }: Props) {
               </span>
             </h2>
             <div className="ta-baseline-card">
-              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Trades</span><span><span className="ta-baseline-value">3.6</span> <span className="ta-baseline-unit">/Day</span></span></div>
-              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Win</span><span><span className="ta-baseline-value win">$1,287</span> <span className="ta-baseline-unit">/USDC</span></span></div>
-              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Loss</span><span><span className="ta-baseline-value loss">$1,234</span> <span className="ta-baseline-unit">USDC</span></span></div>
+              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Trades</span><span><span className="ta-baseline-value">5.2</span> <span className="ta-baseline-unit">/Day</span></span></div>
+              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Win</span><span><span className="ta-baseline-value win">428</span> <span className="ta-baseline-unit">USDC</span></span></div>
+              <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Loss</span><span><span className="ta-baseline-value loss">691</span> <span className="ta-baseline-unit">USDC</span></span></div>
             </div>
           </section>
         </section>
         </div>
 
         <div className="ta-footer-divider">
-          <div className="ta-last-update"><span>Last Update</span><span>2026/05/09 00:00:00</span></div>
+          <div className="ta-last-update"><span>Last Update</span><span>2026/06/16 06:48</span></div>
           <button className="ta-brain-cta" type="button" onClick={onTalkToBrain}>Talk to My Brain</button>
         </div>
       </main>

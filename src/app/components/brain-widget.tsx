@@ -454,6 +454,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   const [renameValue, setRenameValue] = useState("");
   const [pendingName, setPendingName] = useState("");
   const [message, setMessage] = useState("");
+  const [lastSentMessage, setLastSentMessage] = useState("");
   const [attachedFile, setAttachedFile] = useState("");
   const [phase, setPhase] = useState<ProcessPhase>("idle");
   const [phaseSteps, setPhaseSteps] = useState(0);
@@ -504,8 +505,18 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
     return [...groups.entries()];
   }, [history]);
 
-  const reset = () => { setScreen("home"); setOverlay("none"); setMessage(""); setAttachedFile(""); setPhase("idle"); setPhaseSteps(0); setQuery(""); };
-  const send = () => { if (!message.trim() && !attachedFile) return; setScreen("conversation"); setOverlay("none"); setPhase("planning"); setPhaseSteps(0); };
+  const reset = () => { setScreen("home"); setOverlay("none"); setMessage(""); setLastSentMessage(""); setAttachedFile(""); setPhase("idle"); setPhaseSteps(0); setQuery(""); };
+  const send = () => {
+    if (!message.trim() && !attachedFile) return;
+    setLastSentMessage(message.trim() || attachedFile);
+    setMessage("");
+    setAttachedFile("");
+    inputRef.current?.blur();
+    setScreen("conversation");
+    setOverlay("none");
+    setPhase("planning");
+    setPhaseSteps(0);
+  };
   const showHistory = () => { setOverlay("none"); setScreen("history"); };
   const openRename = () => { setRenameValue(brainName === "Brain" ? "" : brainName); setOverlay("rename"); };
 
@@ -523,6 +534,16 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   return (
     <section aria-label="Brain trading companion" style={{ position: "relative", width: "100%", height: "100%", minHeight: 640, overflow: "visible", background: "transparent", fontFamily: "Poppins, Arial, sans-serif", pointerEvents: "none", zIndex: 200 }}>
 
+      {/* Full-frame blocker — absorbs all pointer events so nothing reaches the page behind */}
+      {isOpen && (
+        <div
+          aria-hidden="true"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+          style={{ position: "absolute", inset: 0, zIndex: 199, pointerEvents: "auto" }}
+        />
+      )}
+
       {/* Launcher */}
       <button type="button" aria-label="Open Brain" onClick={() => setIsOpen(true)}
         style={{ position: "absolute", left: launcherLeft, top: launcherTop, width: LAUNCHER_SIZE, height: LAUNCHER_SIZE, transform: `scale(${scale})`, transformOrigin: "top left", border: 0, padding: 0, display: "grid", placeItems: "center", background: "transparent", cursor: "pointer", pointerEvents: "auto", opacity: isOpen ? 0 : 1, visibility: isOpen ? "hidden" : "visible", transition: "opacity 240ms ease, visibility 0s linear 340ms" }}>
@@ -532,7 +553,10 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
       </button>
 
       {/* Widget panel — 375×830 at 1920 design, scaled with frame */}
-      <div style={{ position: "absolute", left: brainLeft, top: brainTop, width: BRAIN_W, height: BRAIN_H, transform: `scale(${scale})`, transformOrigin: "top left", borderRadius: 24, border: "1px solid rgba(226,208,255,.79)", overflow: "hidden", display: "flex", flexDirection: "column", color: "#fff", background: "#121419", boxShadow: "0 20px 60px rgba(0,0,0,.28)", opacity: isOpen ? 1 : 0, visibility: isOpen ? "visible" : "hidden", pointerEvents: isOpen ? "auto" : "none", zIndex: 200, transition: "opacity 280ms ease, visibility 0s linear 340ms" }}>
+      <div
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+        style={{ position: "absolute", left: brainLeft, top: brainTop, width: BRAIN_W, height: BRAIN_H, transform: `scale(${scale})`, transformOrigin: "top left", borderRadius: 24, border: "1px solid rgba(226,208,255,.79)", overflow: "hidden", display: "flex", flexDirection: "column", color: "#fff", background: "#121419", boxShadow: "0 20px 60px rgba(0,0,0,.28)", opacity: isOpen ? 1 : 0, visibility: isOpen ? "visible" : "hidden", pointerEvents: isOpen ? "auto" : "none", zIndex: 200, transition: "opacity 280ms ease, visibility 0s linear 340ms" }}>
 
         <TopBar title={screen === "history" ? "Conversation History" : brainName} onNewChat={reset} onSettings={() => setOverlay("settings")} onClose={() => setIsOpen(false)} onBack={screen === "history" ? () => setScreen("home") : undefined} />
 
@@ -554,7 +578,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <div style={{ display: "flex", justifyContent: "flex-end", paddingLeft: 40, width: "100%" }}>
                   <div style={{ background: "#2d2d2f", padding: "8px 12px", borderRadius: "16px 16px 2px 16px", maxWidth: 292 }}>
-                    <p style={{ margin: 0, fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.9)" }}>{message || attachedFile}</p>
+                    <p style={{ margin: 0, fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 13, lineHeight: "18px", color: "rgba(255,255,255,0.9)" }}>{lastSentMessage}</p>
                   </div>
                 </div>
               </div>
@@ -636,8 +660,8 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
 
         {/* SETTINGS overlay */}
         {overlay === "settings" && (
-          <div onClick={() => setOverlay("none")} style={{ position: "absolute", inset: 0, zIndex: 30, display: "flex", alignItems: "flex-end", background: "rgba(6,7,10,.5)" }}>
-            <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "16px 12px 12px", border: "1px solid rgba(255,255,255,.36)", borderRadius: "24px 24px 0 0", background: "#111316" }}>
+          <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); setOverlay("none"); }} style={{ position: "absolute", inset: 0, zIndex: 30, display: "flex", alignItems: "flex-end", background: "rgba(6,7,10,.5)" }}>
+            <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "16px 12px 12px", border: "1px solid rgba(255,255,255,.36)", borderRadius: "24px 24px 0 0", background: "#111316" }}>
               <div style={{ position: "relative", textAlign: "center", marginBottom: 15, color: "#fff", fontSize: 13, fontWeight: 600 }}>Setting<HoverButton ariaLabel="Close settings" onClick={() => setOverlay("none")} style={{ position: "absolute", right: 0, top: -6, width: 28, height: 28, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton></div>
               <SettingOption title="Rename My Brain" description="Change your companion's name" onClick={openRename} />
               <SettingOption title="Conversation History" description="View and manage your past chats" onClick={showHistory} />
@@ -711,8 +735,8 @@ function SettingOption({ title, description, onClick }: { title: string; descrip
 
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
-    <div onClick={onClose} style={{ position: "absolute", inset: 0, zIndex: 35, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}>
-      <div role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} style={{ width: "100%", borderRadius: 12, border: "1px solid rgba(255,255,255,.42)", background: "#111316", padding: "17px 16px 14px", boxShadow: "0 10px 30px rgba(0,0,0,.3)" }}>
+    <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", inset: 0, zIndex: 35, display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "rgba(6,7,10,.5)" }}>
+      <div role="dialog" aria-modal="true" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()} style={{ width: "100%", borderRadius: 12, border: "1px solid rgba(255,255,255,.42)", background: "#111316", padding: "17px 16px 14px", boxShadow: "0 10px 30px rgba(0,0,0,.3)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <h2 style={{ margin: 0, color: "#fff", fontSize: 13, lineHeight: "18px", fontWeight: 600 }}>{title}</h2>
           <HoverButton ariaLabel="Close" onClick={onClose} style={{ width: 26, height: 26, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton>

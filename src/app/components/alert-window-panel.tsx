@@ -8,23 +8,28 @@ const SCROLL_CSS = `
 .alert-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.28); }
 `;
 
+const ORANGE = "#F59E0B";
+const ORANGE_DIM = "rgba(245, 158, 11, 0.55)";
+const ORANGE_GLOW = "rgba(245, 158, 11, 0.35)";
+
 const SIGNALS = [
-  { title: "Revenge trading pattern detected", desc: "You tend to increase risk immediately after losses." },
-  { title: "Revenge trading pattern detected", desc: "You tend to increase risk immediately after losses." },
-  { title: "Revenge trading pattern detected", desc: "You tend to increase risk immediately after losses." },
-  { title: "Revenge trading pattern detected", desc: "You tend to increase risk immediately after losses." },
-  { title: "Revenge trading pattern detected", desc: "You tend to increase risk immediately after losses." },
+  { title: "High Leverage Detected", desc: "Current leverage exceeds your typical trading behavior." },
+  { title: "Position Size Spike", desc: "This position is significantly larger than your usual trades." },
+  { title: "No Stop-Loss Configured", desc: "Consider defining downside risk before entering." },
+  { title: "Concentrated Exposure", desc: "Most of your available capital is allocated to one position." },
+  { title: "Potential Revenge Trading", desc: "Position size increased shortly after a recent loss." },
 ];
 
-function CriticalIcon() {
+function RiskSignalIcon() {
   return (
-    <div style={{ width: 20, height: 20, position: "relative", flexShrink: 0, overflow: "hidden" }} data-name="CRITICAL">
-      <svg style={{ display: "block", width: "100%", height: "100%" }} fill="none" viewBox="0 0 20 20">
-        <path d={svgPaths.p14e3b880} fill="#FF4144" fillOpacity="0.2" stroke="#FF4144" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" transform="translate(1 1) scale(1.05)" />
-        <path d="M9.08 7.41V11.5" stroke="#FF4144" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
-        <circle cx="10" cy="13.5" r="0.75" stroke="#FF4144" strokeWidth="1.5" />
-      </svg>
-    </div>
+    <img
+      src="/risk-signal-icon.png"
+      alt=""
+      aria-hidden="true"
+      width={20}
+      height={20}
+      style={{ display: "block", flexShrink: 0, objectFit: "contain" }}
+    />
   );
 }
 
@@ -43,16 +48,15 @@ function SignalCard({ title, desc }: { title: string; desc: string }) {
     <div
       data-name="Alert card"
       style={{
-        background: "rgba(255,65,68,0.1)",
+        background: "rgba(28, 25, 23, 0.95)",
         borderRadius: 12,
-        borderLeft: "1px solid #ff4144",
-        borderRight: "1px solid #ff4144",
-        padding: 12,
+        border: `1px solid ${ORANGE_DIM}`,
+        padding: "12px 14px",
         flexShrink: 0,
       }}
     >
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-        <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 14, lineHeight: "20px", color: "#fff", maxWidth: 250 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 6 }}>
+        <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 14, lineHeight: "20px", color: "#fff", flex: 1, minWidth: 0 }}>
           {title}
         </span>
         <span
@@ -60,20 +64,20 @@ function SignalCard({ title, desc }: { title: string; desc: string }) {
           style={{
             fontFamily: "Poppins, sans-serif",
             fontWeight: 600,
-            fontSize: 12,
-            lineHeight: "18px",
-            color: "#ff4144",
-            background: "rgba(255,65,68,0.1)",
-            padding: "2px 12px",
+            fontSize: 11,
+            lineHeight: "16px",
+            color: ORANGE,
+            background: "rgba(245, 158, 11, 0.12)",
+            padding: "2px 10px",
             borderRadius: 4,
-            letterSpacing: "-0.36px",
-            fontFeatureSettings: '"lnum", "tnum"',
+            letterSpacing: "0.04em",
+            flexShrink: 0,
           }}
         >
-          CRITICAL
+          HIGH
         </span>
       </div>
-      <p style={{ margin: 0, fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 12, lineHeight: "18px", color: "rgba(255,255,255,0.5)" }}>
+      <p style={{ margin: 0, fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 12, lineHeight: "18px", color: "rgba(255,255,255,0.55)" }}>
         {desc}
       </p>
     </div>
@@ -88,10 +92,10 @@ function ExpandRow({ onExpand }: { onExpand: () => void }) {
       onClick={onExpand}
       style={{
         width: "100%",
-        height: 34,
-        borderRadius: 12,
-        border: "1px solid rgba(255,65,68,0.2)",
-        background: "rgba(227,231,234,0.05)",
+        height: 36,
+        borderRadius: 10,
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: "rgba(255,255,255,0.04)",
         padding: "8px 12px",
         display: "flex",
         alignItems: "center",
@@ -100,13 +104,12 @@ function ExpandRow({ onExpand }: { onExpand: () => void }) {
         flexShrink: 0,
       }}
     >
-      <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 600, fontSize: 12, lineHeight: "18px" }}>
-        <span style={{ color: "#fff" }}>+3 </span>
-        <span style={{ color: "rgba(255,255,255,0.6)" }}>more critical signals</span>
+      <span style={{ fontFamily: "Poppins, sans-serif", fontWeight: 500, fontSize: 12, lineHeight: "18px", color: "rgba(255,255,255,0.55)" }}>
+        +3 more risk signals
       </span>
       <div style={{ width: 18, height: 18, transform: "rotate(180deg)", flexShrink: 0 }}>
         <svg style={{ display: "block", width: "100%", height: "100%" }} fill="none" viewBox="0 0 10.4975 4.50012">
-          <path d={svgPaths.p23a1f780} fill="white" fillOpacity="0.5" />
+          <path d={svgPaths.p23a1f780} fill="white" fillOpacity="0.45" />
         </svg>
       </div>
     </button>
@@ -132,11 +135,11 @@ export function AlertWindowPanel({ expanded, onExpand }: Props) {
         flexDirection: "column",
         gap: 16,
         padding: 20,
-        borderRadius: 12,
+        borderRadius: 16,
         position: "relative",
-        background: "#131519",
-        border: "1px solid #ff4144",
-        boxShadow: "inset 0px 0px 40px rgba(255,118,118,0.6)",
+        background: "#121419",
+        border: `1px solid ${ORANGE}`,
+        boxShadow: `0 0 24px ${ORANGE_GLOW}, inset 0 0 32px rgba(245, 158, 11, 0.08)`,
         fontFamily: "Poppins, sans-serif",
         overflow: "hidden",
       }}
@@ -144,9 +147,9 @@ export function AlertWindowPanel({ expanded, onExpand }: Props) {
       <style>{SCROLL_CSS}</style>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <CriticalIcon />
-          <span style={{ fontWeight: 700, fontSize: 16, lineHeight: "20px", color: "#fff" }}>Critical Signal</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <RiskSignalIcon />
+          <span style={{ fontWeight: 700, fontSize: 16, lineHeight: "20px", color: "#fff" }}>Risk Signal</span>
         </div>
         <button
           type="button"
@@ -201,7 +204,7 @@ const BRAIN_MARGIN = 48;
 const ALERT_LEFT = DESIGN_W - BRAIN_MARGIN - ALERT_W;
 const BRAIN_ICON_BOTTOM = DESIGN_H - BRAIN_MARGIN;
 
-/** Rendered above Brain widget (z-index 250) so Critical Signal covers the launcher icon. */
+/** Rendered above Brain widget (z-index 250) so Risk Signal covers the launcher icon. */
 export function CriticalSignalOverlay({ scale, onClose }: { scale: number; onClose: () => void }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -221,7 +224,8 @@ export function CriticalSignalOverlay({ scale, onClose }: { scale: number; onClo
         zIndex: 250,
         pointerEvents: "auto",
       }}
-      onClick={(e) => { if ((e.target as HTMLElement).closest('[data-name="close"]')) onClose(); }}
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); if ((e.target as HTMLElement).closest('[data-name="close"]')) onClose(); }}
     >
       <AlertWindowPanel expanded={expanded} onExpand={() => setExpanded(true)} />
     </div>
