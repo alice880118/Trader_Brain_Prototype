@@ -5,7 +5,7 @@ function Frame17() {
   return (
     <div className="bg-[#330d0e] content-stretch flex items-center justify-center px-[8px] py-[2px] relative rounded-[9px] shrink-0">
       <div aria-hidden className="absolute border border-[#661a1b] border-solid inset-0 pointer-events-none rounded-[9px]" />
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[#ff4144] text-[12px] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[#ff4144] text-[12px] whitespace-nowrap">
         <p className="leading-[18px]">HIGH RISK</p>
       </div>
     </div>
@@ -30,7 +30,7 @@ function Frame24() {
 function Frame18() {
   return (
     <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-bold justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
         <p className="leading-[20px]">You just took a loss</p>
       </div>
       <Frame24 />
@@ -49,10 +49,10 @@ function Frame23() {
 function Frame19() {
   return (
     <div className="content-stretch flex gap-[4px] items-end justify-end relative shrink-0">
-      <div className="flex flex-col font-['Poppins:Bold',sans-serif] h-[23px] justify-center relative shrink-0 text-[#ff4144] text-[28px] w-[113px]">
+      <div className="flex flex-col font-bold h-[23px] justify-center relative shrink-0 text-[#ff4144] text-[28px] w-[113px]">
         <p className="leading-[normal]">-847.65</p>
       </div>
-      <div className="flex flex-col font-['Poppins:Medium',sans-serif] h-[14px] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.6)] w-[39px]">
+      <div className="flex flex-col font-medium h-[14px] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.6)] w-[39px]">
         <p className="leading-[20px]">USDC</p>
       </div>
     </div>
@@ -62,7 +62,7 @@ function Frame19() {
 function Frame20() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-col gap-[8px] items-start leading-[0] not-italic relative shrink-0 text-center">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.6)] whitespace-nowrap">
+      <div className="flex flex-col font-semibold justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.6)] whitespace-nowrap">
         <p className="leading-[20px]">Loss Amount</p>
       </div>
       <Frame19 />
@@ -121,7 +121,7 @@ function Frame11() {
 function Frame7() {
   return (
     <div className="content-stretch flex items-center relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[0px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[0px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">
         <p className="text-[14px]">
           <span className="leading-[18px]">Brain detected</span>
           <span className="leading-[18px] text-[#ff4144]">{` 3`}</span>
@@ -149,7 +149,7 @@ function Frame() {
 function Frame13() {
   return (
     <div className="content-stretch flex items-center relative shrink-0 w-[60px]">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[#ff4144] text-[16px] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[#ff4144] text-[16px] whitespace-nowrap">
         <p className="leading-[18px]">4.2X</p>
       </div>
     </div>
@@ -159,7 +159,7 @@ function Frame13() {
 function Frame8() {
   return (
     <div className="content-stretch flex flex-[1_0_0] items-center justify-between min-w-px relative">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">
         <p className="leading-[18px]">Larger than your normal trade size</p>
       </div>
       <Frame13 />
@@ -193,10 +193,10 @@ function Frame1() {
 function Frame12() {
   return (
     <div className="content-stretch flex gap-[2px] items-center relative shrink-0 w-[60px]">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[#ff4144] text-[16px]">
+      <div className="flex flex-col font-semibold justify-center relative shrink-0 text-[#ff4144] text-[16px]">
         <p className="leading-[18px]">3</p>
       </div>
-      <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.4)]">
+      <div className="flex flex-col font-medium justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.4)]">
         <p className="leading-[18px]">times</p>
       </div>
     </div>
@@ -206,7 +206,7 @@ function Frame12() {
 function Frame9() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] items-center justify-between leading-[0] min-w-px not-italic relative whitespace-nowrap">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)]">
+      <div className="flex flex-col font-semibold justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)]">
         <p className="leading-[18px]">Changed exit plan multiple times</p>
       </div>
       <Frame12 />
@@ -240,10 +240,10 @@ function Frame2() {
 function Frame14() {
   return (
     <div className="content-stretch flex gap-[2px] items-center relative shrink-0 w-[60px] whitespace-nowrap">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[#ff4144] text-[16px]">
+      <div className="flex flex-col font-semibold justify-center relative shrink-0 text-[#ff4144] text-[16px]">
         <p className="leading-[18px]">2</p>
       </div>
-      <div className="flex flex-col font-['Poppins:Medium',sans-serif] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.4)]">
+      <div className="flex flex-col font-medium justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.4)]">
         <p className="leading-[18px]">min</p>
       </div>
     </div>
@@ -253,7 +253,7 @@ function Frame14() {
 function Frame10() {
   return (
     <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] items-center justify-between leading-[0] min-w-px not-italic relative">
-      <div className="flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] w-[218px]">
+      <div className="flex flex-col font-semibold justify-center relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] w-[218px]">
         <p className="leading-[18px]">Entered a new trade shortly after a loss</p>
       </div>
       <Frame14 />
@@ -310,7 +310,7 @@ function Frame15() {
     <div className="bg-[rgba(255,255,255,0.05)] content-stretch flex gap-[10px] items-center justify-center px-[12px] py-[12px] relative rounded-[4px] shrink-0 w-full">
       <div aria-hidden className="absolute border border-[rgba(255,65,68,0.5)] border-solid inset-0 pointer-events-none rounded-[4px]" />
       <Frame3 />
-      <div className="[word-break:break-word] flex flex-[1_0_0] flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[18px] min-w-px not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)]">
+      <div className="[word-break:break-word] flex flex-[1_0_0] flex-col font-semibold justify-center leading-[18px] min-w-px not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)]">
         <p className="mb-0">These patterns are linked to revenge trading</p>
         <p className="mb-0">and significantly higher loss risk.</p>
       </div>

@@ -225,7 +225,7 @@ function BottonNavBar({ className, size = "m", state = "Default" }: BottonNavBar
             )}
             {isMAndIsAddOneImgOrAddMoreThenOneImgOrAddOneFileOrAddMoreThenOne && (
               <>
-                <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
+                <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
                 <Function className="relative shrink-0 w-[316.6px]" />
               </>
             )}
@@ -242,7 +242,7 @@ function BottonNavBar({ className, size = "m", state = "Default" }: BottonNavBar
                         </div>
                       </div>
                     </div>
-                    <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
+                    <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
                   </div>
                   <Send className="bg-gradient-to-r from-[#7053f3] overflow-clip relative rounded-[999px] shrink-0 size-[24px] to-[#e3ff94] to-[161.52%] via-[#76bab2] via-[74.167%]" />
                 </div>
@@ -268,7 +268,7 @@ function QuestionTag({ className, color = "fill", state = "Default" }: QuestionT
       <div className={`flex relative ${isFill ? '[word-break:break-word] flex-col font-["Poppins:SemiBold",sans-serif] justify-center leading-[0] not-italic shrink-0 text-[12px] text-black whitespace-nowrap' : "content-stretch gap-[4px] items-center overflow-clip px-[10px] py-[4px] rounded-[inherit] size-full"}`}>
         {isOutline && (
           <>
-            <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[#dbfd5c] text-[12px] whitespace-nowrap">
+            <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[#dbfd5c] text-[12px] whitespace-nowrap">
               <p className="leading-[18px]">Chat with Brain</p>
             </div>
             <div className="flex items-center justify-center relative shrink-0">
@@ -366,7 +366,7 @@ function SupportNav({ className, size = "m", state = "Default" }: SupportNavProp
               </div>
             </div>
           )}
-          <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[20px] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">{state === "Rename My Brain" ? "Rename My Brain" : state === "Conversation History" ? "Conversation History" : state === "Default" && size === "s" ? "Brain" : "Brain"}</p>
+          <p className="[word-break:break-word] font-semibold leading-[20px] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">{state === "Rename My Brain" ? "Rename My Brain" : state === "Conversation History" ? "Conversation History" : state === "Default" && size === "s" ? "Brain" : "Brain"}</p>
         </div>
         <div className="content-stretch flex gap-[16px] items-center relative shrink-0">
           <div className="content-stretch flex gap-[12px] items-center relative shrink-0">
@@ -396,11 +396,11 @@ export default function UploadFilesImageUploadStateEmpty({ className }: { classN
           <div className="content-stretch flex flex-col items-center px-[16px] relative size-full">
             <div className="content-stretch flex flex-col gap-[12px] items-center pt-[28px] relative shrink-0 w-full" data-name="Hero">
               <div className="[word-break:break-word] content-stretch flex flex-col gap-[2px] items-center not-italic relative shrink-0 text-center whitespace-nowrap">
-                <p className="bg-clip-text bg-gradient-to-r font-['Poppins:Bold',sans-serif] from-[#dbd3ff] leading-[28px] relative shrink-0 text-[18px] text-[transparent] to-[#e3ff94] to-[145.09%] via-[#76bab2] via-[66.625%]">{`Let's build your trading edge`}</p>
-                <p className="font-['Poppins:Medium',sans-serif] leading-[18px] relative shrink-0 text-[14px] text-[rgba(255,255,255,0.7)]">Tell me how you trade.</p>
+                <p className="bg-clip-text bg-gradient-to-r font-bold from-[#dbd3ff] leading-[28px] relative shrink-0 text-[18px] text-[transparent] to-[#e3ff94] to-[145.09%] via-[#76bab2] via-[66.625%]">{`Let's build your trading edge`}</p>
+                <p className="font-medium leading-[18px] relative shrink-0 text-[14px] text-[rgba(255,255,255,0.7)]">Tell me how you trade.</p>
               </div>
               <div className="bg-white content-stretch flex items-center justify-center px-[12px] py-[6px] relative rounded-[99px] shrink-0">
-                <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[#121419] text-[12px] whitespace-nowrap">Get Started</p>
+                <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[#121419] text-[12px] whitespace-nowrap">Get Started</p>
               </div>
             </div>
             <div className="flex-[1_0_0] min-h-px overflow-clip relative w-[343px]" data-name="main section">
@@ -845,10 +845,10 @@ export default function UploadFilesImageUploadStateEmpty({ className }: { classN
               </div>
               <div className="-translate-x-1/2 [word-break:break-word] absolute content-stretch flex flex-col items-center justify-center leading-[18px] left-[calc(50%+0.5px)] not-italic px-[8px] py-[2px] text-[12px] text-center top-[309px] whitespace-nowrap" style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 184 40' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(9.2 0 0 2 92 20)'><stop stop-color='rgba(18,20,25,1)' offset='0'/><stop stop-color='rgba(18,20,25,0)' offset='1'/></radialGradient></defs></svg>\")" }} data-name="info section">
                 <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
-                  <p className="font-['Poppins:SemiBold',sans-serif] relative shrink-0 text-white">{`Hi, I'm`}</p>
-                  <p className="bg-clip-text bg-gradient-to-r font-['Poppins:Bold',sans-serif] from-[#dbd3ff] relative shrink-0 text-[transparent] to-[#e3ff94] to-[145.09%] via-[#76bab2] via-[66.625%]">Brain</p>
+                  <p className="font-semibold relative shrink-0 text-white">{`Hi, I'm`}</p>
+                  <p className="bg-clip-text bg-gradient-to-r font-bold from-[#dbd3ff] relative shrink-0 text-[transparent] to-[#e3ff94] to-[145.09%] via-[#76bab2] via-[66.625%]">Brain</p>
                 </div>
-                <p className="font-['Poppins:Medium',sans-serif] relative shrink-0 text-[rgba(255,255,255,0.5)]">Your AI Trading Companion</p>
+                <p className="font-medium relative shrink-0 text-[rgba(255,255,255,0.5)]">Your AI Trading Companion</p>
               </div>
               <QuestionTag className="absolute bg-gradient-to-r content-stretch flex from-[#c6a4ff] items-center left-[29px] overflow-clip px-[10px] py-[4px] rounded-[8px] to-[#dbfd5c] top-[70px]" />
               <QuestionTag className="absolute bg-black left-[154px] rounded-[8px] top-[402px]" color="outline" />

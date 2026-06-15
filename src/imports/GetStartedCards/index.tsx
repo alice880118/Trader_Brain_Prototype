@@ -3,7 +3,7 @@ import svgPaths from "./svg-6rcee5hk5a";
 function Frame1() {
   return (
     <div className="bg-[#dbfd5c] content-stretch flex flex-col items-center justify-center relative rounded-[4px] shrink-0 size-[20px]">
-      <p className="[word-break:break-word] font-['Poppins:Bold',sans-serif] leading-[22px] not-italic relative shrink-0 text-[13px] text-black text-center w-full">01</p>
+      <p className="[word-break:break-word] font-bold leading-[22px] not-italic relative shrink-0 text-[13px] text-black text-center w-full">01</p>
     </div>
   );
 }
@@ -12,7 +12,7 @@ function Frame() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
       <Frame1 />
-      <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[22px] not-italic relative shrink-0 text-[13px] text-white whitespace-nowrap">Conversation</p>
+      <p className="[word-break:break-word] font-semibold leading-[22px] not-italic relative shrink-0 text-[13px] text-white whitespace-nowrap">Conversation</p>
     </div>
   );
 }
@@ -264,7 +264,7 @@ function Group4() {
 function Frame5() {
   return (
     <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.7)] w-[171px]">Share your trading habits with Brain.</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.7)] w-[171px]">Share your trading habits with Brain.</p>
       <div className="h-[69px] overflow-clip relative shrink-0 w-[79px]" data-name="img">
         <div className="-translate-x-1/2 absolute h-[4px] left-[calc(50%+0.5px)] top-[60px] w-[66px]">
           <div className="absolute inset-[-165%_-10%]">
@@ -340,8 +340,8 @@ function Frame3() {
           <BehavioralTag />
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] text-center whitespace-nowrap">
-        <span className="font-['Poppins:SemiBold',sans-serif] leading-[18px] text-[rgba(255,255,255,0.8)]">1</span>
+      <p className="[word-break:break-word] font-medium leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] text-center whitespace-nowrap">
+        <span className="font-semibold leading-[18px] text-[rgba(255,255,255,0.8)]">1</span>
         <span className="leading-[18px] text-[rgba(255,255,255,0.4)]">/3</span>
       </p>
       <BehavioralTag1 />

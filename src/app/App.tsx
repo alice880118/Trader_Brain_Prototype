@@ -192,8 +192,7 @@ export default function App() {
         [data-name="Position Close"] * { cursor: pointer !important; }
         [data-name="Positions"] { cursor: default; }
         ${activeBg === "portfolio" ? `
-        [data-name="Default"] > div:nth-last-child(2),
-        [data-name="Default"] > [data-name="Button"] { visibility: hidden; pointer-events: none; }
+        [data-name="Default"] { visibility: hidden !important; pointer-events: none !important; }
         ` : ""}
       `}</style>
 
@@ -263,14 +262,10 @@ export default function App() {
               left: 1330 * dims.scale,
               top: 99 * dims.scale,
               width: 350,
-              height: 948,
               transform: `scale(${dims.scale})`,
               transformOrigin: "top left",
               pointerEvents: "auto",
               zIndex: 5,
-              overflow: "visible",
-              display: "flex",
-              flexDirection: "column",
             }}
           >
             <TraderArchetype onTalkToBrain={() => setBrainOpen(true)} />

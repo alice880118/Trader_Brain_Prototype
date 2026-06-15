@@ -40,8 +40,9 @@ function brainRectGapped() {
 
 // ── CSS string ────────────────────────────────────────────────────────────────
 const CSS = `
-.ta-frame{width:350px;height:100%;overflow:hidden;padding:20px;color:#f7f7fa;background:#0d0f14;border-radius:4px;font-family:Poppins,ui-sans-serif,system-ui,sans-serif;box-shadow:0 18px 42px rgba(0,0,0,.28);display:flex;flex-direction:column;box-sizing:border-box;}
-.ta-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;}
+.ta-frame{width:350px;padding:20px;box-sizing:border-box;color:#f7f7fa;background:#0d0f14;border-radius:4px;font-family:Poppins,sans-serif;box-shadow:0 18px 42px rgba(0,0,0,.28);display:flex;flex-direction:column;align-self:flex-start;max-height:908px;overflow-y:auto;overflow-x:hidden;}
+.ta-frame.expanded{max-height:none;overflow:visible;}
+.ta-scroll{flex:0 0 auto;}
 .ta-top-row,.ta-section-row{display:flex;align-items:center;justify-content:space-between;}
 .ta-eyebrow{margin:0;color:#a7a8ad;font-size:14px;font-weight:600;}
 .ta-title{margin:6px 0 22px;color:#fafafd;font-size:16px;font-weight:600;line-height:1;}
@@ -71,7 +72,7 @@ const CSS = `
 .ta-track{position:relative;height:6px;overflow:hidden;border-radius:999px;background:#34373c;}
 .ta-fill{position:absolute;inset:0 auto 0 0;border-radius:inherit;background:linear-gradient(90deg,#7357ff 0%,#5d85d9 29%,#87c7b7 58%,#e6fb8c 100%);}
 .ta-details{margin-top:28px;padding-top:22px;border-top:1px solid #292d32;}
-.ta-details-header,.ta-baseline-row,.ta-last-update{display:flex;align-items:center;justify-content:space-between;}
+.ta-details-header,.ta-baseline-row{display:flex;align-items:center;justify-content:space-between;}
 .ta-details-title,.ta-baseline-title{display:flex;align-items:center;gap:5px;margin:0;color:#a6a7ac;font-size:13px;font-weight:600;}
 .ta-close-tags{display:none;align-items:center;gap:6px;padding:0;border:0;color:#9a9ba1;background:transparent;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;}
 .ta-details.expanded .ta-close-tags{display:flex;}
@@ -93,8 +94,10 @@ const CSS = `
 .ta-baseline-value{color:#f4f4f6;font-size:13px;font-weight:600;}
 .ta-baseline-value.win{color:#52f5d2;}
 .ta-baseline-value.loss{color:#ff55b7;}
-.ta-footer-divider{flex-shrink:0;margin-top:12px;padding-top:16px;border-top:1px solid #292d32;background:#0d0f14;}
-.ta-last-update{justify-content:center;gap:14px;color:rgba(255,255,255,.5);margin-bottom:27px;text-align:center;}
+.ta-footer{margin-top:20px;flex-shrink:0;}
+.ta-last-update-block{margin-top:20px;}
+.ta-last-update-line{height:1px;background:rgba(255,255,255,.05);}
+.ta-last-update{display:flex;justify-content:center;gap:14px;margin-top:6px;color:rgba(255,255,255,.5);text-align:center;}
 .ta-brain-cta{width:100%;height:40px;border:0;border-radius:999px;color:#fff;background:linear-gradient(90deg,#714fff 0%,#8db8cc 46%,#ddff81 100%);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;}
 `;
 
@@ -203,7 +206,7 @@ export default function Frame967({ onTalkToBrain }: Props) {
   return (
     <>
       <style>{CSS}</style>
-      <main className="ta-frame" aria-label="Your Trader Archetype">
+      <main className={`ta-frame${expanded ? " expanded" : ""}`} aria-label="Your Trader Archetype">
         <div className="ta-scroll">
         <div className="ta-top-row">
           <p className="ta-eyebrow">Your Trader Archetype</p>
@@ -283,12 +286,15 @@ export default function Frame967({ onTalkToBrain }: Props) {
               <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Win</span><span><span className="ta-baseline-value win">428</span> <span className="ta-baseline-unit">USDC</span></span></div>
               <div className="ta-baseline-row"><span className="ta-baseline-label">Avg Loss</span><span><span className="ta-baseline-value loss">691</span> <span className="ta-baseline-unit">USDC</span></span></div>
             </div>
+            <div className="ta-last-update-block">
+              <div className="ta-last-update-line" aria-hidden="true" />
+              <div className="ta-last-update"><span>Last Update</span><span>2026/06/16 06:48</span></div>
+            </div>
           </section>
         </section>
         </div>
 
-        <div className="ta-footer-divider">
-          <div className="ta-last-update"><span>Last Update</span><span>2026/06/16 06:48</span></div>
+        <div className="ta-footer">
           <button className="ta-brain-cta" type="button" onClick={onTalkToBrain}>Talk to My Brain</button>
         </div>
       </main>

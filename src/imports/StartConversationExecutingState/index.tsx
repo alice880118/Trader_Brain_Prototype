@@ -3,7 +3,7 @@ import svgPaths from "./svg-r7u9sx9dhi";
 function Frame1() {
   return (
     <div className="content-stretch flex items-center relative shrink-0">
-      <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[20px] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">Brain</p>
+      <p className="[word-break:break-word] font-semibold leading-[20px] not-italic relative shrink-0 text-[16px] text-center text-white whitespace-nowrap">Brain</p>
     </div>
   );
 }
@@ -82,13 +82,13 @@ function Frame24() {
         <div className="flex flex-row justify-end size-full">
           <div className="content-stretch flex items-start justify-end pl-[40px] relative size-full">
             <div className="bg-[#2d2d2f] content-stretch flex items-center justify-end max-w-[292px] px-[12px] py-[8px] relative rounded-bl-[16px] rounded-br-[2px] rounded-tl-[16px] rounded-tr-[16px] shrink-0 w-[227px]" data-name="dialog">
-              <p className="[word-break:break-word] flex-[1_0_0] font-['Poppins:Medium',sans-serif] leading-[18px] max-w-[244px] min-w-px not-italic relative text-[13px] text-[rgba(255,255,255,0.9)]">I want to long BTC with 20U</p>
+              <p className="[word-break:break-word] flex-[1_0_0] font-medium leading-[18px] max-w-[244px] min-w-px not-italic relative text-[13px] text-[rgba(255,255,255,0.9)]">I want to long BTC with 20U</p>
             </div>
           </div>
         </div>
       </div>
       <div className="content-stretch flex items-center justify-end relative shrink-0 w-full" data-name="time">
-        <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] text-right whitespace-nowrap">4:08 PM</p>
+        <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] text-right whitespace-nowrap">4:08 PM</p>
       </div>
     </div>
   );
@@ -128,7 +128,7 @@ function Frame16() {
 function Frame18() {
   return (
     <div className="content-stretch flex flex-[1_0_0] items-center justify-between min-w-px relative">
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">Plan</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">Plan</p>
       <Frame16 />
     </div>
   );
@@ -182,7 +182,7 @@ function Frame15() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">{`Analyze Today's BTC Market`}</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">{`Analyze Today's BTC Market`}</p>
     </div>
   );
 }
@@ -229,7 +229,7 @@ function Frame17() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Retrieve Key Crypto Market Data</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Retrieve Key Crypto Market Data</p>
     </div>
   );
 }
@@ -276,7 +276,7 @@ function Frame19() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Analyze Leverage Conditions</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Analyze Leverage Conditions</p>
     </div>
   );
 }
@@ -323,7 +323,7 @@ function Frame20() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] bg-clip-text bg-gradient-to-r font-['Poppins:Medium',sans-serif] from-[#d9d0ff] leading-[18px] not-italic relative shrink-0 text-[13px] text-[transparent] to-[#e3ff94] to-[136.78%] via-[#85d7cd] via-[78.543%] whitespace-nowrap">Validating Market Data...</p>
+      <p className="[word-break:break-word] bg-clip-text bg-gradient-to-r font-medium from-[#d9d0ff] leading-[18px] not-italic relative shrink-0 text-[13px] text-[transparent] to-[#e3ff94] to-[136.78%] via-[#85d7cd] via-[78.543%] whitespace-nowrap">Validating Market Data...</p>
     </div>
   );
 }
@@ -383,7 +383,7 @@ function Frame21() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] bg-clip-text bg-gradient-to-r font-['Poppins:Medium',sans-serif] from-[#d9d0ff] leading-[18px] not-italic relative shrink-0 text-[13px] text-[transparent] to-[#e3ff94] to-[136.78%] via-[#85d7cd] via-[78.543%] whitespace-nowrap">Checking User Profile...</p>
+      <p className="[word-break:break-word] bg-clip-text bg-gradient-to-r font-medium from-[#d9d0ff] leading-[18px] not-italic relative shrink-0 text-[13px] text-[transparent] to-[#e3ff94] to-[136.78%] via-[#85d7cd] via-[78.543%] whitespace-nowrap">Checking User Profile...</p>
     </div>
   );
 }
@@ -478,7 +478,7 @@ function Frame22() {
           </div>
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Retrieving Recent User Data</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] whitespace-nowrap">Retrieving Recent User Data</p>
     </div>
   );
 }
@@ -578,7 +578,7 @@ function Dialog() {
           <Group2 />
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] text-shadow-[0px_0px_4px_rgba(0,0,0,0.4)] w-[245px]">Kevin is thinking...</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.8)] text-shadow-[0px_0px_4px_rgba(0,0,0,0.4)] w-[245px]">Kevin is thinking...</p>
     </div>
   );
 }
@@ -634,7 +634,7 @@ function AskingBox() {
       <div aria-hidden className="absolute border-[#c7bcfa] border-[1.2px] border-solid inset-0 pointer-events-none rounded-[16px]" />
       <div className="flex flex-col justify-center size-full">
         <div className="content-stretch flex flex-col items-start justify-between px-[17.2px] py-[13.2px] relative size-full">
-          <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
+          <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.3)] whitespace-nowrap">Tell me about your trading habits...</p>
           <div className="relative shrink-0 w-[316.6px]" data-name="function">
             <div className="bg-clip-padding border-0 border-[transparent] border-solid content-stretch flex items-center justify-between relative size-full">
               <div className="content-stretch flex items-center justify-center relative rounded-[999px] shrink-0 size-[20px]" data-name="add">

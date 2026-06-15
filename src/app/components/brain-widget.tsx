@@ -80,17 +80,76 @@ function Check() {
   return <span style={{ width: 17, height: 17, borderRadius: 999, display: "inline-flex", alignItems: "center", justifyContent: "center", background: "#00e7ad", color: "#07120f", fontSize: 12, fontWeight: 800 }}>✓</span>;
 }
 
+function SearchIcon() {
+  return <img src="/search.svg" alt="" aria-hidden="true" width={16} height={16} style={{ display: "block", flexShrink: 0 }} />;
+}
+
+function DeleteIcon() {
+  return <img src="/delete.svg" alt="" aria-hidden="true" width={15} height={15} style={{ display: "block", flexShrink: 0 }} />;
+}
+
+function ShimmerStyle() {
+  return (
+    <style>{`
+      @keyframes brainHistoryShimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+    `}</style>
+  );
+}
+
+function SkeletonBar({ width, delay = 0 }: { width: string; delay?: number }) {
+  return (
+    <div style={{ width, height: 13, borderRadius: 999, overflow: "hidden", background: "rgba(255,255,255,0.1)", position: "relative", flexShrink: 0 }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.24) 45%, rgba(255,255,255,0.08) 55%, transparent 100%)",
+          animation: `brainHistoryShimmer 1.35s ease-in-out ${delay}s infinite`,
+        }}
+      />
+    </div>
+  );
+}
+
+function SearchLoadingSkeleton() {
+  return (
+    <>
+      <ShimmerStyle />
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            height: 72,
+            borderRadius: 10,
+            marginBottom: 8,
+            padding: "14px 16px",
+            background: "rgba(255,255,255,0.04)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 10,
+          }}
+        >
+          <SkeletonBar width="58%" delay={i * 0.15} />
+          <SkeletonBar width="42%" delay={i * 0.15 + 0.08} />
+        </div>
+      ))}
+    </>
+  );
+}
+
 // ─── Figma TopBar (SupportNav) ────────────────────────────────────────────────
 
 function TopBar({ title, onNewChat, onSettings, onClose, onBack }: { title: string; onNewChat: () => void; onSettings: () => void; onClose: () => void; onBack?: () => void }) {
   return (
     <header style={{ width: "100%", height: 58, padding: "16px 16px 8px", display: "flex", alignItems: "center", justifyContent: "space-between", flex: "0 0 auto" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: onBack ? 6 : 0, minWidth: 0 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: onBack ? 4 : 0, minWidth: 0 }}>
         {onBack && (
-          <HoverButton ariaLabel="Back" onClick={onBack} style={{ width: 16, height: 32, borderRadius: 8, padding: "0 7px", display: "grid", placeItems: "center" }}>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="M11.25 13.5L6.75 9L11.25 4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <HoverButton ariaLabel="Back" onClick={onBack} style={{ width: 18, height: 32, borderRadius: 8, padding: 0, display: "grid", placeItems: "center" }}>
+            <img src="/Container.svg" alt="" aria-hidden="true" width={18} height={32} style={{ display: "block" }} />
           </HoverButton>
         )}
         <div style={{ color: "#fff", fontSize: onBack ? 13 : 16, lineHeight: "20px", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
@@ -532,7 +591,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   const launcherTop = (DESIGN_H - BRAIN_MARGIN - LAUNCHER_SIZE) * scale;
 
   return (
-    <section aria-label="Brain trading companion" style={{ position: "relative", width: "100%", height: "100%", minHeight: 640, overflow: "visible", background: "transparent", fontFamily: "Poppins, Arial, sans-serif", pointerEvents: "none", zIndex: 200 }}>
+    <section aria-label="Brain trading companion" style={{ position: "relative", width: "100%", height: "100%", minHeight: 640, overflow: "visible", background: "transparent", fontFamily: "Poppins, sans-serif", pointerEvents: "none", zIndex: 200 }}>
 
       {/* Full-frame blocker — absorbs all pointer events so nothing reaches the page behind */}
       {isOpen && (
@@ -627,14 +686,14 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
         {screen === "history" ? (
           <main style={{ flex: 1, minHeight: 0, padding: "8px 16px 18px", overflowY: "auto" }}>
             <div style={{ height: 42, borderRadius: 10, border: query ? "1px solid rgba(255,255,255,.55)" : "1px solid transparent", background: "rgba(255,255,255,.06)", display: "flex", alignItems: "center", gap: 9, padding: "0 12px", marginBottom: 14 }}>
-              <span aria-hidden="true" style={{ color: "rgba(255,255,255,.48)", fontSize: 18 }}>⌕</span>
+              <SearchIcon />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search conversations..." style={{ flex: 1, minWidth: 0, border: 0, outline: 0, background: "transparent", color: "rgba(255,255,255,.82)", fontFamily: "inherit", fontSize: 13, fontWeight: 600 }} />
               {query ? <HoverButton ariaLabel="Clear search" onClick={() => setQuery("")} style={{ width: 24, height: 24, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton> : null}
             </div>
             {query
               ? searching
-                ? Array.from({ length: 5 }).map((_, i) => <div key={i} style={{ height: 72, borderRadius: 10, marginBottom: 8, padding: 13, background: "rgba(255,255,255,.055)" }}><div style={{ width: "55%", height: 13, borderRadius: 4, background: "rgba(255,255,255,.055)" }} /><div style={{ width: "68%", height: 13, borderRadius: 4, marginTop: 9, background: "rgba(255,255,255,.055)" }} /></div>)
-                : searchResults.length ? searchResults.map((item) => <SearchCard key={item.id} item={item} />) : <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,.5)", fontSize: 14, fontWeight: 600 }}>⌕ No results found</div>
+                ? <SearchLoadingSkeleton />
+                : searchResults.length ? searchResults.map((item) => <SearchCard key={item.id} item={item} />) : <div style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,.5)", fontSize: 14, fontWeight: 600 }}><SearchIcon />No results found</div>
               : groupedHistory.map(([group, items]) => (
                 <section key={group} style={{ marginBottom: 14 }}>
                   <h2 style={{ margin: "0 0 8px", color: "rgba(255,255,255,.54)", fontSize: 14, lineHeight: "20px", fontWeight: 600 }}>{group}</h2>
@@ -644,7 +703,34 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
                       <div style={{ marginTop: 5, color: "rgba(255,255,255,.48)", fontSize: 12, lineHeight: "17px", fontWeight: 500 }}>{item.date}</div>
                       {item.active ? <span style={{ position: "absolute", right: 12, top: 25, padding: "2px 8px", border: "1px solid #00e7ad", borderRadius: 999, color: "#00e7ad", fontSize: 12, fontWeight: 600 }}>Active</span>
                         : <HoverButton ariaLabel={`Actions for ${item.title}`} onClick={() => setDeleteMenu(deleteMenu === item.id ? null : item.id)} style={{ position: "absolute", right: 10, top: 26, width: 16, height: 16, borderRadius: 999, padding: 0, fontSize: 10, letterSpacing: "-1px" }}>•••</HoverButton>}
-                      {deleteMenu === item.id && <button type="button" onClick={() => { setDeleteTarget(item); setOverlay("delete"); setDeleteMenu(null); }} style={{ position: "absolute", zIndex: 5, right: 0, top: 54, height: 38, padding: "0 14px", borderRadius: 10, border: "1px solid rgba(255,60,164,.65)", background: "#13151a", color: "#ff3ca4", fontFamily: "inherit", fontWeight: 600, cursor: "pointer" }}>⌫ Delete</button>}
+                      {deleteMenu === item.id && (
+                        <button
+                          type="button"
+                          onClick={() => { setDeleteTarget(item); setOverlay("delete"); setDeleteMenu(null); }}
+                          style={{
+                            position: "absolute",
+                            zIndex: 5,
+                            right: 0,
+                            top: 54,
+                            height: 38,
+                            padding: "4px 8px",
+                            borderRadius: 10,
+                            border: "1px solid rgba(255,60,164,.65)",
+                            background: "#13151a",
+                            color: "#ff3ca4",
+                            fontFamily: "inherit",
+                            fontWeight: 600,
+                            fontSize: 13,
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <DeleteIcon />
+                          Delete
+                        </button>
+                      )}
                     </div>
                   ))}
                 </section>

@@ -1,7 +1,7 @@
 function Frame2() {
   return (
     <div className="content-stretch flex flex-[1_0_0] h-[24px] items-center min-w-px relative">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Medium',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <div className="[word-break:break-word] flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         <p className="leading-[12px]">Quantity</p>
       </div>
     </div>
@@ -11,7 +11,7 @@ function Frame2() {
 function ButtonXs() {
   return (
     <div className="content-stretch flex items-center justify-end relative shrink-0" data-name="button-xs">
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[12px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] text-right tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <p className="[word-break:break-word] font-medium leading-[12px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] text-right tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         Entire position
       </p>
     </div>
@@ -36,7 +36,7 @@ function Button() {
   return (
     <div className="content-stretch flex gap-[4px] items-center justify-center min-h-[24px] px-[8px] relative rounded-[4px] self-stretch shrink-0 w-[62px]" data-name="Button">
       <div aria-hidden className="absolute border border-[#6e55df] border-solid inset-0 pointer-events-none rounded-[4px]" />
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[#c9bdff] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[#c9bdff] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         <p className="leading-[12px]">Position</p>
       </div>
     </div>
@@ -56,7 +56,7 @@ function Frame9() {
   return (
     <div className="bg-[rgba(110,85,223,0.15)] content-stretch flex h-[28px] items-center justify-center px-[12px] relative rounded-[4px] shrink-0 w-[73px]">
       <div aria-hidden className="absolute border border-[rgba(110,85,223,0.9)] border-solid inset-0 pointer-events-none rounded-[4px]" />
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[#c2b4ff] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[#c2b4ff] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         <p className="leading-[12px]">100%</p>
       </div>
     </div>
@@ -68,19 +68,19 @@ function Frame12() {
     <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
       <div className="bg-[rgba(255,255,255,0.05)] content-stretch flex gap-[4px] h-[28px] items-center justify-center min-h-[24px] px-[8px] relative rounded-[4px] shrink-0 w-[73px]" data-name="Button">
         <div aria-hidden className="absolute border border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[4px]" />
-        <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
           <p className="leading-[12px]">25%</p>
         </div>
       </div>
       <div className="bg-[rgba(255,255,255,0.05)] content-stretch flex gap-[4px] h-[28px] items-center justify-center min-h-[24px] px-[8px] relative rounded-[4px] shrink-0 w-[73px]" data-name="Button">
         <div aria-hidden className="absolute border border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[4px]" />
-        <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
           <p className="leading-[12px]">50%</p>
         </div>
       </div>
       <div className="bg-[rgba(255,255,255,0.05)] content-stretch flex gap-[4px] h-[28px] items-center justify-center min-h-[24px] px-[8px] relative rounded-[4px] shrink-0 w-[73px]" data-name="Button">
         <div aria-hidden className="absolute border border-[rgba(255,255,255,0.1)] border-solid inset-0 pointer-events-none rounded-[4px]" />
-        <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] min-h-[24px] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.8)] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
           <p className="leading-[12px]">75%</p>
         </div>
       </div>
@@ -153,7 +153,7 @@ function Frame4() {
 
 function Frame5() {
   return (
-    <div className="[word-break:break-word] content-stretch flex font-['Poppins:SemiBold',sans-serif] items-center justify-between leading-[0] not-italic relative shrink-0 text-[12px] w-full whitespace-nowrap">
+    <div className="[word-break:break-word] content-stretch flex font-semibold items-center justify-between leading-[0] not-italic relative shrink-0 text-[12px] w-full whitespace-nowrap">
       <div className="flex flex-col justify-center relative shrink-0 text-[#bcadff]">
         <p className="leading-[18px]">100%</p>
       </div>
@@ -174,7 +174,7 @@ function Frame7() {
 function Frame3() {
   return (
     <div className="content-stretch flex h-[24px] items-center mr-[-10.011px] relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.9)] tracking-[-0.39px] w-[252px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.9)] tracking-[-0.39px] w-[252px]" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
         <p className="leading-[13px]">0.08</p>
       </div>
     </div>
@@ -184,7 +184,7 @@ function Frame3() {
 function ButtonXs1() {
   return (
     <div className="content-stretch flex items-center justify-end relative shrink-0" data-name="button-xs">
-      <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[20px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] text-right whitespace-nowrap">Market</p>
+      <p className="[word-break:break-word] font-semibold leading-[20px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.5)] text-right whitespace-nowrap">Market</p>
     </div>
   );
 }
@@ -206,7 +206,7 @@ function Frame10() {
 function Frame() {
   return (
     <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[11px] text-[rgba(255,255,255,0.6)] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[11px] text-[rgba(255,255,255,0.6)] whitespace-nowrap">
         <p className="leading-[20px]">Cancel</p>
       </div>
     </div>
@@ -216,7 +216,7 @@ function Frame() {
 function Frame1() {
   return (
     <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[11px] text-white whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[11px] text-white whitespace-nowrap">
         <p className="leading-[20px]">Confirm</p>
       </div>
     </div>

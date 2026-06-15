@@ -124,13 +124,6 @@
     @apply border-border outline-ring/50;
   }
 
-  html,
-  body,
-  #root,
-  #root * {
-    font-family: Poppins, sans-serif !important;
-  }
-
   body {
     @apply bg-background text-foreground;
   }

@@ -3,7 +3,7 @@ import svgPaths from "./svg-6susktnv3m";
 function Frame1() {
   return (
     <div className="bg-[#dbfd5c] content-stretch flex flex-col items-center justify-center relative rounded-[4px] shrink-0 size-[20px]">
-      <p className="[word-break:break-word] font-['Poppins:Bold',sans-serif] leading-[22px] not-italic relative shrink-0 text-[13px] text-black text-center w-full">03</p>
+      <p className="[word-break:break-word] font-bold leading-[22px] not-italic relative shrink-0 text-[13px] text-black text-center w-full">03</p>
     </div>
   );
 }
@@ -12,7 +12,7 @@ function Frame() {
   return (
     <div className="content-stretch flex gap-[10px] items-center relative shrink-0">
       <Frame1 />
-      <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[22px] not-italic relative shrink-0 text-[13px] text-white whitespace-nowrap">Model Growth</p>
+      <p className="[word-break:break-word] font-semibold leading-[22px] not-italic relative shrink-0 text-[13px] text-white whitespace-nowrap">Model Growth</p>
     </div>
   );
 }
@@ -92,7 +92,7 @@ function Group1() {
 function Frame5() {
   return (
     <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.7)] w-[171px]">More data unlocks smarter insights and recommendations.</p>
+      <p className="[word-break:break-word] font-medium leading-[18px] not-italic relative shrink-0 text-[13px] text-[rgba(255,255,255,0.7)] w-[171px]">More data unlocks smarter insights and recommendations.</p>
       <div className="h-[69px] overflow-clip relative shrink-0 w-[79px]" data-name="img">
         <div className="-translate-x-1/2 absolute h-[4px] left-[calc(50%+0.5px)] top-[60px] w-[66px]">
           <div className="absolute inset-[-165%_-10%]">
@@ -152,7 +152,7 @@ function BehavioralTag1() {
     <div className="bg-[#dbfd5c] content-stretch flex h-[20px] items-center justify-center overflow-clip px-[8px] py-[4px] relative rounded-[12px]" data-name="Behavioral Tag">
       <div className="flex items-center justify-center relative shrink-0">
         <div className="-scale-y-100 flex-none rotate-180">
-          <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative text-[12px] text-[rgba(0,0,0,0.8)] text-center whitespace-nowrap">Finish</p>
+          <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative text-[12px] text-[rgba(0,0,0,0.8)] text-center whitespace-nowrap">Finish</p>
         </div>
       </div>
     </div>
@@ -167,8 +167,8 @@ function Frame3() {
           <BehavioralTag />
         </div>
       </div>
-      <p className="[word-break:break-word] font-['Poppins:Medium',sans-serif] leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] text-center w-[23px]">
-        <span className="font-['Poppins:SemiBold',sans-serif] leading-[18px] text-[rgba(255,255,255,0.8)]">3</span>
+      <p className="[word-break:break-word] font-medium leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.6)] text-center w-[23px]">
+        <span className="font-semibold leading-[18px] text-[rgba(255,255,255,0.8)]">3</span>
         <span className="leading-[18px] text-white">/3</span>
       </p>
       <div className="flex items-center justify-center relative shrink-0">

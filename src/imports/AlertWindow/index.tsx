@@ -26,7 +26,7 @@ function Frame10() {
           </div>
         </div>
       </div>
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Bold',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-bold justify-center leading-[0] not-italic relative shrink-0 text-[16px] text-white whitespace-nowrap">
         <p className="leading-[20px]">Critical Signal</p>
       </div>
     </div>
@@ -59,7 +59,7 @@ function Frame() {
 function Frame1() {
   return (
     <div className="content-stretch flex flex-col items-start justify-center relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] max-w-[250px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] max-w-[250px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
         <p className="leading-[20px]">Revenge trading pattern detected</p>
       </div>
     </div>
@@ -71,7 +71,7 @@ function Frame5() {
     <div className="content-center flex flex-wrap gap-y-[8px] items-center justify-between relative shrink-0 w-full">
       <Frame1 />
       <div className="bg-[rgba(255,65,68,0.1)] content-stretch flex items-center justify-center px-[12px] py-[2px] relative rounded-[4px] shrink-0" data-name="Alert tag">
-        <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[#ff4144] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[#ff4144] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
           CRITICAL
         </p>
       </div>
@@ -83,7 +83,7 @@ function Frame3() {
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-w-px relative">
       <Frame5 />
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Medium',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] w-full">
+      <div className="[word-break:break-word] flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] w-full">
         <p className="leading-[18px]">You tend to increase risk immediately after losses.</p>
       </div>
     </div>
@@ -101,7 +101,7 @@ function Frame4() {
 function Frame2() {
   return (
     <div className="content-stretch flex flex-col items-start justify-center relative shrink-0">
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:SemiBold',sans-serif] justify-center leading-[0] max-w-[250px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] max-w-[250px] not-italic relative shrink-0 text-[14px] text-white whitespace-nowrap">
         <p className="leading-[20px]">Revenge trading pattern detected</p>
       </div>
     </div>
@@ -113,7 +113,7 @@ function Frame8() {
     <div className="content-center flex flex-wrap gap-y-[8px] items-center justify-between relative shrink-0 w-full">
       <Frame2 />
       <div className="bg-[rgba(255,65,68,0.1)] content-stretch flex items-center justify-center px-[12px] py-[2px] relative rounded-[4px] shrink-0" data-name="Alert tag">
-        <p className="[word-break:break-word] font-['Poppins:SemiBold',sans-serif] leading-[18px] not-italic relative shrink-0 text-[#ff4144] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
+        <p className="[word-break:break-word] font-semibold leading-[18px] not-italic relative shrink-0 text-[#ff4144] text-[12px] text-center tracking-[-0.36px] whitespace-nowrap" style={{ fontFeatureSettings: '"lnum", "tnum"' }}>
           CRITICAL
         </p>
       </div>
@@ -125,7 +125,7 @@ function Frame7() {
   return (
     <div className="content-stretch flex flex-[1_0_0] flex-col gap-[4px] items-start min-w-px relative">
       <Frame8 />
-      <div className="[word-break:break-word] flex flex-col font-['Poppins:Medium',sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] w-full">
+      <div className="[word-break:break-word] flex flex-col font-medium justify-center leading-[0] not-italic relative shrink-0 text-[12px] text-[rgba(255,255,255,0.5)] w-full">
         <p className="leading-[18px]">You tend to increase risk immediately after losses.</p>
       </div>
     </div>
@@ -142,7 +142,7 @@ function Frame6() {
 
 function Frame11() {
   return (
-    <div className="[word-break:break-word] content-stretch flex font-['Poppins:SemiBold',sans-serif] gap-[2px] items-center leading-[0] not-italic relative shrink-0 text-[12px] whitespace-nowrap">
+    <div className="[word-break:break-word] content-stretch flex font-semibold gap-[2px] items-center leading-[0] not-italic relative shrink-0 text-[12px] whitespace-nowrap">
       <div className="flex flex-col justify-center relative shrink-0 text-white">
         <p className="leading-[18px]">+3</p>
       </div>
