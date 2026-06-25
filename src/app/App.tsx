@@ -177,20 +177,6 @@ export default function App() {
   return (
     <div style={{ width: "100vw", height: "100vh", background: "#000", position: "relative", overflow: "hidden" }}>
       <style>{`
-        [data-name="Nav Bar menu"] { cursor: pointer; }
-        [data-name="close"] { cursor: pointer; }
-        [data-name="Button"] { cursor: pointer; }
-        [data-name="button-xs"] { cursor: pointer; }
-        [data-name="Behavioral Tag"] { cursor: pointer; }
-        button, [role="button"] { cursor: pointer; }
-        input, textarea, [data-name*="input"], [data-name*="Input"] { cursor: pointer; }
-        a { cursor: pointer; }
-        [data-name="LimitNormalWithTpSl"] *,
-        [data-name="Limit/Normal with TP/SL"] * { cursor: pointer !important; }
-        [data-name="OrdersTab"] [data-name*="Close"],
-        [data-name="Position Close"],
-        [data-name="Position Close"] * { cursor: pointer !important; }
-        [data-name="Positions"] { cursor: default; }
         ${activeBg === "portfolio" ? `
         [data-name="Default"] { visibility: hidden !important; pointer-events: none !important; }
         ` : ""}

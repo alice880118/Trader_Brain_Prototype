@@ -8,6 +8,11 @@ import brainAnimation from "../../imports/Brain.json";
 import iconAnimation from "../../imports/icon.json";
 import svgPaths from "../../imports/UploadFilesImageUploadStateEmpty-1/svg-d2kerqg99v";
 import sendIcon from "../../imports/send.svg";
+import {
+  DEFAULT_AGENT_NAME,
+  loadSavedAgentName,
+  persistAgentName,
+} from "../lib/agent-name";
 
 export type BrainWidgetProps = {
   initialName?: string;
@@ -205,7 +210,7 @@ function TopBar({ title, onNewChat, onSettings, onClose, onBack }: { title: stri
           </HoverButton>
         </div>
         {/* Close icon */}
-        <HoverButton ariaLabel="Close Brain" onClick={onClose} style={{ width: 20, height: 20, borderRadius: 999, padding: 0, display: "grid", placeItems: "center" }}>
+        <HoverButton ariaLabel="Close Trader DNA" onClick={onClose} style={{ width: 20, height: 20, borderRadius: 999, padding: 0, display: "grid", placeItems: "center" }}>
           <div style={{ position: "relative", width: 20, height: 20, overflow: "hidden" }}>
             <div style={{ position: "absolute", inset: "16.27% 16.64% 17.01% 16.6%" }}>
               <svg style={{ display: "block", width: "100%", height: "100%" }} fill="none" viewBox="0 0 13.352 13.343">
@@ -606,7 +611,7 @@ function AnalysisResults() {
 
 // ─── Main Widget ──────────────────────────────────────────────────────────────
 
-export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale = 1 }: BrainWidgetProps) {
+export function BrainWidget({ initialName = DEFAULT_AGENT_NAME, open, onOpenChange, scale = 1 }: BrainWidgetProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const isControlled = onOpenChange !== undefined;
   const isOpen = isControlled ? (open ?? false) : internalOpen;
@@ -616,7 +621,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   };
   const [screen, setScreen] = useState<Screen>("home");
   const [overlay, setOverlay] = useState<Overlay>("none");
-  const [brainName, setBrainName] = useState(initialName);
+  const [brainName, setBrainName] = useState(() => loadSavedAgentName() || initialName);
   const [renameValue, setRenameValue] = useState("");
   const [pendingName, setPendingName] = useState("");
   const [message, setMessage] = useState("");
@@ -702,6 +707,26 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
     setPhaseSteps(0);
     setQuery("");
   };
+
+  const resetSessionState = () => {
+    reset();
+    setSearching(false);
+    setDeleteMenu(null);
+    setDeleteTarget(null);
+    setRenameValue("");
+    setPendingName("");
+    setHistory(initialHistory);
+  };
+
+  const applyAgentName = (name: string) => {
+    setBrainName(name);
+    persistAgentName(name);
+  };
+
+  const closeWidget = () => {
+    resetSessionState();
+    setIsOpen(false);
+  };
   const send = () => {
     if (!message.trim() && !attachment) return;
     setLastSentMessage(message.trim() || attachment?.name || "");
@@ -714,7 +739,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
     setPhaseSteps(0);
   };
   const showHistory = () => { setOverlay("none"); setScreen("history"); };
-  const openRename = () => { setRenameValue(brainName === "Brain" ? "" : brainName); setOverlay("rename"); };
+  const openRename = () => { setRenameValue(brainName === DEFAULT_AGENT_NAME ? "" : brainName); setOverlay("rename"); };
 
   const renameCount = Array.from(renameValue.trim()).length;
   const renameError = renameCount > 15;
@@ -728,7 +753,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
   const launcherTop = (DESIGN_H - BRAIN_MARGIN - LAUNCHER_SIZE) * scale;
 
   return (
-    <section aria-label="Brain trading companion" style={{ position: "relative", width: "100%", height: "100%", minHeight: 640, overflow: "visible", background: "transparent", fontFamily: "Poppins, sans-serif", pointerEvents: "none", zIndex: 200 }}>
+    <section aria-label="Trader DNA trading companion" style={{ position: "relative", width: "100%", height: "100%", minHeight: 640, overflow: "visible", background: "transparent", fontFamily: "Poppins, sans-serif", pointerEvents: "none", zIndex: 200 }}>
 
       {/* Full-frame blocker — absorbs all pointer events so nothing reaches the page behind */}
       {isOpen && (
@@ -741,7 +766,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
       )}
 
       {/* Launcher */}
-      <button type="button" aria-label="Open Brain" onClick={() => setIsOpen(true)}
+      <button type="button" aria-label="Open Trader DNA" onClick={() => setIsOpen(true)}
         style={{ position: "absolute", left: launcherLeft, top: launcherTop, width: LAUNCHER_SIZE, height: LAUNCHER_SIZE, transform: `scale(${scale})`, transformOrigin: "top left", border: 0, padding: 0, display: "grid", placeItems: "center", background: "transparent", cursor: "pointer", pointerEvents: "auto", opacity: isOpen ? 0 : 1, visibility: isOpen ? "hidden" : "visible", transition: "opacity 240ms ease, visibility 0s linear 340ms" }}>
         <div ref={launcherIconRef} aria-hidden="true" style={{ width: 54, height: 54, pointerEvents: "none" }}>
           <Lottie animationData={iconAnimation} loop autoplay style={{ width: "100%", height: "100%" }} />
@@ -754,7 +779,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
         onClick={(e) => e.stopPropagation()}
         style={{ position: "absolute", left: brainLeft, top: brainTop, width: BRAIN_W, height: BRAIN_H, transform: `scale(${scale})`, transformOrigin: "top left", borderRadius: 24, border: "1px solid rgba(226,208,255,.79)", overflow: "hidden", display: "flex", flexDirection: "column", color: "#fff", background: "#121419", boxShadow: "0 20px 60px rgba(0,0,0,.28)", opacity: isOpen ? 1 : 0, visibility: isOpen ? "visible" : "hidden", pointerEvents: isOpen ? "auto" : "none", zIndex: 200, transition: "opacity 280ms ease, visibility 0s linear 340ms" }}>
 
-        <TopBar title={screen === "history" ? "Conversation History" : brainName} onNewChat={reset} onSettings={() => setOverlay("settings")} onClose={() => setIsOpen(false)} onBack={screen === "history" ? () => setScreen("home") : undefined} />
+        <TopBar title={screen === "history" ? "Conversation History" : brainName} onNewChat={reset} onSettings={() => setOverlay("settings")} onClose={closeWidget} onBack={screen === "history" ? () => setScreen("home") : undefined} />
 
         {/* HOME */}
         {screen === "home" ? (
@@ -894,7 +919,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
           <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); setOverlay("none"); }} style={{ position: "absolute", inset: 0, zIndex: 30, display: "flex", alignItems: "flex-end", background: "rgba(6,7,10,.5)" }}>
             <div onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()} style={{ width: "100%", padding: "16px 12px 12px", border: "1px solid rgba(255,255,255,.36)", borderRadius: "24px 24px 0 0", background: "#111316" }}>
               <div style={{ position: "relative", textAlign: "center", marginBottom: 15, color: "#fff", fontSize: 13, fontWeight: 600 }}>Setting<HoverButton ariaLabel="Close settings" onClick={() => setOverlay("none")} style={{ position: "absolute", right: 0, top: -6, width: 28, height: 28, borderRadius: 999, padding: 0 }}><XIcon /></HoverButton></div>
-              <SettingOption title="Rename My Brain" description="Change your companion's name" onClick={openRename} />
+              <SettingOption title="Rename Trader DNA" description="Change your companion's name" onClick={openRename} />
               <SettingOption title="Conversation History" description="View and manage your past chats" onClick={showHistory} />
               <button type="button" onClick={() => setOverlay("none")} style={{ width: "100%", height: 42, marginTop: 10, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.65)", fontFamily: "inherit", fontWeight: 600, cursor: "pointer" }}>Cancel</button>
             </div>
@@ -902,7 +927,7 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
         )}
 
         {overlay === "rename" && (
-          <Modal title="Rename My Brain" onClose={() => setOverlay("none")}>
+          <Modal title="Rename Trader DNA" onClose={() => setOverlay("none")}>
             <p style={{ margin: "0 0 18px", color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: "20px", fontWeight: 600 }}>This name will be used for future insights and interactions.</p>
             <div style={{ height: 42, borderRadius: 10, border: `1.2px solid ${renameError ? "#ff3ca4" : renameCount ? "#c7a4ff" : "rgba(255,255,255,.56)"}`, display: "flex", alignItems: "center", gap: 8, padding: "0 11px", background: "rgba(255,255,255,.02)" }}>
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
@@ -921,10 +946,10 @@ export function BrainWidget({ initialName = "Brain", open, onOpenChange, scale =
         )}
 
         {overlay === "rename-success" && (
-          <Modal title="Saved Successfully!" onClose={() => { setBrainName(pendingName || brainName); setOverlay("none"); }}>
+          <Modal title="Saved Successfully!" onClose={() => { applyAgentName(pendingName || brainName); setOverlay("none"); }}>
             <p style={{ margin: "0 0 28px", color: "rgba(255,255,255,.62)", fontSize: 13, lineHeight: "20px", fontWeight: 600 }}>{pendingName} will be your trading companion on the journey ahead.</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-              <button type="button" onClick={() => { setBrainName(pendingName || brainName); setOverlay("none"); }} style={{ minHeight: 40, borderRadius: 999, border: 0, background: "linear-gradient(90deg,#7157f3,#89d8ba)", color: "#fff", fontFamily: "inherit", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Close</button>
+              <button type="button" onClick={() => { applyAgentName(pendingName || brainName); setOverlay("none"); }} style={{ minHeight: 40, borderRadius: 999, border: 0, background: "linear-gradient(90deg,#7157f3,#89d8ba)", color: "#fff", fontFamily: "inherit", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Close</button>
               <button type="button" onClick={() => setOverlay("rename")} style={{ minHeight: 40, borderRadius: 999, border: "1px solid rgba(255,255,255,.36)", background: "transparent", color: "rgba(255,255,255,.74)", fontFamily: "inherit", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Edit Name</button>
             </div>
           </Modal>

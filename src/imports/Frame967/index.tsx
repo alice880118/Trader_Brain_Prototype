@@ -3,6 +3,10 @@ import brainMp4  from "../brain.mp4";
 import infoSvg   from "../info.svg";
 import behavioralTagSvg from "../behavioral-tag.svg";
 import reactRightSvg    from "../react-right.svg";
+import {
+  AGENT_NAME_CHANGE_EVENT,
+  getPortfolioTalkToName,
+} from "../../app/lib/agent-name";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type TagColor = "gradient" | "purple" | "lime" | "pink";
@@ -108,8 +112,19 @@ export default function Frame967({ onTalkToBrain }: Props) {
   const layerRef    = useRef<HTMLDivElement>(null);
   const detailsRef  = useRef<HTMLElement>(null);
   const [expanded, setExpanded] = useState(false);
+  const [talkToName, setTalkToName] = useState(getPortfolioTalkToName);
   const [tagNodes, setTagNodes] = useState<(PositionedTag & { key: number; entering: boolean })[]>([]);
   const keyRef = useRef(0);
+
+  useEffect(() => {
+    const syncTalkToName = () => setTalkToName(getPortfolioTalkToName());
+    window.addEventListener(AGENT_NAME_CHANGE_EVENT, syncTalkToName);
+    window.addEventListener("storage", syncTalkToName);
+    return () => {
+      window.removeEventListener(AGENT_NAME_CHANGE_EVENT, syncTalkToName);
+      window.removeEventListener("storage", syncTalkToName);
+    };
+  }, []);
 
   // Measure a tag's rendered size using a hidden DOM node
   function measureTag(tag: Tag): { width: number; height: number } {
@@ -234,7 +249,7 @@ export default function Frame967({ onTalkToBrain }: Props) {
 
         <div className="ta-section-row">
           <p className="ta-section-title">Confidence</p>
-          <span className="ta-tip ta-confidence-tip" tabIndex={0} data-tip="Brain confidence level for this analysis">
+          <span className="ta-tip ta-confidence-tip" tabIndex={0} data-tip="Trade DNA confidence level for this analysis">
             <img className="ta-info" src={infoSvg} alt="" />
           </span>
         </div>
@@ -248,7 +263,7 @@ export default function Frame967({ onTalkToBrain }: Props) {
           <div className="ta-details-header">
             <h2 className="ta-details-title">
               Behavioral Tag{" "}
-              <span className="ta-tip ta-behavior-tip" tabIndex={0} data-tip="Trading behavior patterns detected by Brain">
+              <span className="ta-tip ta-behavior-tip" tabIndex={0} data-tip="Trading behavior patterns detected by Trade DNA">
                 <img className="ta-info" src={infoSvg} alt="" />
               </span>
             </h2>
@@ -295,7 +310,7 @@ export default function Frame967({ onTalkToBrain }: Props) {
         </div>
 
         <div className="ta-footer">
-          <button className="ta-brain-cta" type="button" onClick={onTalkToBrain}>Talk to My Brain</button>
+          <button className="ta-brain-cta" type="button" onClick={onTalkToBrain}>Talk to {talkToName}</button>
         </div>
       </main>
     </>

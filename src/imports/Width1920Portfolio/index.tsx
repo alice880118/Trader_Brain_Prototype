@@ -3030,7 +3030,7 @@ function Frame36() {
   return (
     <div className="content-stretch flex gap-[4px] items-center relative shrink-0">
       <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[11px] text-[rgba(255,255,255,0.9)] text-shadow-[0px_0px_6.8px_rgba(59,59,59,0.5)] whitespace-nowrap">
-        <p className="leading-[20px]">Talk to My Brain</p>
+        <p className="leading-[20px]">Talk to Trade DNA</p>
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ export function BrainBriefModal({ isOpen, onClose, onViewFullAnalysis, scale = 1
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px 0" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontWeight: 700, fontSize: 16, lineHeight: "18px", color: "rgba(255,255,255,.8)" }}>Today&apos;s Brain Brief</span>
+            <span style={{ fontWeight: 700, fontSize: 16, lineHeight: "18px", color: "rgba(255,255,255,.8)" }}>Today&apos;s Trade DNA Brief</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="6.6" stroke="rgba(255,255,255,.55)" strokeWidth="1.2"/>
               <circle cx="8" cy="5.1" r=".85" fill="rgba(255,255,255,.7)"/>

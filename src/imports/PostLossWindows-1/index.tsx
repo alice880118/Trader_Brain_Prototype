@@ -123,7 +123,7 @@ function Frame7() {
     <div className="content-stretch flex items-center relative shrink-0">
       <div className="[word-break:break-word] flex flex-col font-semibold justify-center leading-[0] not-italic relative shrink-0 text-[0px] text-[rgba(255,255,255,0.8)] whitespace-nowrap">
         <p className="text-[14px]">
-          <span className="leading-[18px]">Brain detected</span>
+          <span className="leading-[18px]">Trade DNA detected</span>
           <span className="leading-[18px] text-[#ff4144]">{` 3`}</span>
           <span className="leading-[18px]">{` high-risk behaviors`}</span>
         </p>

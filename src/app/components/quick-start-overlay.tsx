@@ -8,14 +8,14 @@ const STEPS = [
   {
     num: "01",
     title: "Conversation",
-    description: "Share your trading habits with Brain.",
+    description: "Share your trading habits with Trader DNA.",
     image: imgCard1,
     alt: "Conversation",
   },
   {
     num: "02",
     title: "Trade History",
-    description: "Your trades help Brain understand your trading behavior.",
+    description: "Your trades help Trader DNA understand your trading behavior.",
     image: imgCard2,
     alt: "Trade History",
   },

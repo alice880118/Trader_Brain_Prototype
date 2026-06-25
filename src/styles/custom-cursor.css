@@ -1,0 +1,17 @@
+html,
+body,
+*,
+*::before,
+*::after,
+button,
+a,
+[role="button"],
+input,
+textarea,
+select,
+label,
+summary,
+[disabled],
+:not([disabled]) {
+  cursor: none !important;
+}
